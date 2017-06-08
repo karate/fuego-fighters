@@ -1,3 +1,4 @@
+```bash
 # enter project directory
 cd fuego-fighters
 
@@ -14,3 +15,4 @@ bin/pip install -r requirements.txt
 python ff.py
 
 # press 'q' to quit
+```
