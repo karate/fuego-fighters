@@ -1,6 +1,7 @@
 
 import pygame
 from plane import Plane
+from explosion import Explosion
 
 def main():
 
@@ -17,7 +18,7 @@ def main():
 
   # Loop until the user clicks the close button.
   done = False
-   
+
   # Used to manage how fast the screen updates
   clock = pygame.time.Clock()
 
@@ -34,14 +35,20 @@ def main():
   player_plane_image_top = pygame.image.load("resources/plane_top.png").convert_alpha()
   player_plane_image_left = pygame.image.load("resources/plane_left.png").convert_alpha()
   player_plane_image_right = pygame.image.load("resources/plane_right.png").convert_alpha()
-  
+
   # Create player's plane
   player_plane = Plane(player_plane_image_top, player_plane_image_left, player_plane_image_right)
   player_plane.rect.x = (pygame.display.get_surface().get_width() - player_plane.rect.right) / 2
   player_plane.rect.y = pygame.display.get_surface().get_height() - 100
 
+  # Create explosion
+  ex = Explosion()
+  ex.rect.x = 100
+  ex.rect.y = 100
+
   # Add player's plane to sprite list
   all_sprites_list.add(player_plane)
+  all_sprites_list.add(ex)
 
   # -------- Main Program Loop -----------
   while not done:
