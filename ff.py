@@ -45,8 +45,8 @@ def main():
   renderables.add(player_plane)
 
   # Create explosion
-  # Explosion(filename, rows, columns, width, height, delay)
-  explosion = Explosion('resources/explosion.png', 3, 8, 64, 64, 2)
+  # Explosion(spritesheet_filename, rows, columns, width, height, delay)
+  explosion = Explosion('explosion.png', 3, 8, 64, 64, 2)
   explosion.rect.x = 100
   explosion.rect.y = 100
   # Add explosion to sprite list
@@ -63,27 +63,13 @@ def main():
 
       # Reset player plane's sprite
       if event.type == pygame.KEYUP:
-        player_plane.key_up()
-
-    # Update all sprites in the main sprite group
-    renderables.update()
-
-    # Clear Screen
-    screen.fill(WHITE)
-
-    # Draw all sprites
-    renderables.draw(screen)
-
-    # Refresh Screen
-    pygame.display.flip()
+        player_plane.reset_sprite()
 
     # Get user's key presses
     pressed = pygame.key.get_pressed()
-
     # 'q' quits the application
     if pressed[pygame.K_q]:
       done = True
-
     # Arrows move the player's plane
     else:
       # Move right
@@ -98,6 +84,18 @@ def main():
       # Move down
       if pressed[pygame.K_DOWN]:
         player_plane.move_down()
+
+    # Update all sprites in the main sprite group
+    renderables.update()
+
+    # Clear Screen
+    screen.fill(WHITE)
+
+    # Draw all sprites
+    renderables.draw(screen)
+
+    # Refresh Screen
+    pygame.display.flip()
 
     # Number of frames per secong
     # 30fps generate flickering. Going with 60

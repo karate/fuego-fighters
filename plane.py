@@ -1,6 +1,7 @@
 import pygame
 
 class Plane(pygame.sprite.Sprite):
+
   speed_h = 5
   speed_v = 4
   hit_points = 100
@@ -32,7 +33,7 @@ class Plane(pygame.sprite.Sprite):
     self.rect = self.image.get_rect()
 
   # Reset sprite to image_top
-  def key_up(self):
+  def reset_sprite(self):
     self.image = self.image_top
 
   # Basic movement
@@ -62,7 +63,7 @@ class Plane(pygame.sprite.Sprite):
     # Don't let it go off the borders
     if self.rect.y < 0:
       self.rect.y = 0
-  
+
   def move_down(self):
     # Move down
     self.rect.y += self.speed_v
