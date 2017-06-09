@@ -41,7 +41,7 @@ def main():
 
   # Create explosion
   # Explosion(spritesheet_filename, rows, columns, width, height, delay)
-  explosion = Explosion('explosion.png', 3, 8, 64, 64, 2)
+  explosion = Explosion('explosion.png', 64, 64, 3, 8, 4)
   explosion.rect.x = 100
   explosion.rect.y = 100
   # Add explosion to sprite list

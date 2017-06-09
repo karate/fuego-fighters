@@ -1,6 +1,7 @@
 import pygame
+from sprite import Sprite
 
-class Plane(pygame.sprite.Sprite):
+class Plane(Sprite):
 
   speed_h = 5
   speed_v = 4
@@ -9,25 +10,9 @@ class Plane(pygame.sprite.Sprite):
   # Constructor. Pass in three images of the plane
   def __init__(self, spritesheet_filename, width, height):
     # Call the parent class (Sprite) constructor
-    pygame.sprite.Sprite.__init__(self)
+    Sprite.__init__(self, spritesheet_filename, width, height, 1, 3)
 
-    # Load sprites for the plane
-    sprite_sheet = pygame.image.load('resources/' + spritesheet_filename).convert_alpha()
-
-    self.width = width
-    self.height = height
-
-     # extract images
-    self.images = []
-    for i in range(3):
-      # Rect(left, top, width, height)
-      rect = pygame.Rect((i*self.width, 0, self.width, self.height))
-      self.image = pygame.Surface(rect.size).convert()
-      self.image.set_colorkey(self.image.get_at((0,0)), pygame.RLEACCEL)
-      self.image.blit(sprite_sheet, (0, 0), rect)
-      self.images.append(self.image)
-
-    self.rect = self.images[0].get_rect()
+    print(self.images)
     self.image_left = self.images[0]
     self.image_top = self.images[1]
     self.image_right = self.images[2]
