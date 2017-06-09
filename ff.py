@@ -31,17 +31,22 @@ def main():
   # This is a sprite group that keeps all our sprites. It also supports layers.
   renderables = pygame.sprite.LayeredUpdates()
 
+  # Load player's planeimages
+  player_plane_image_top = pygame.image.load("resources/plane_top.png").convert_alpha()
+  player_plane_image_left = pygame.image.load("resources/plane_left.png").convert_alpha()
+  player_plane_image_right = pygame.image.load("resources/plane_right.png").convert_alpha()
+
   # Create player's plane
-  # Plane(image_top_filename, image_left_filename = None, image_right_filename = None)
-  player_plane = Plane('plane_top.png', 'plane_left.png', 'plane_right.png')
+  # Plane(image_top, image_left = None, image_right = None)
+  player_plane = Plane(player_plane_image_top, player_plane_image_left, player_plane_image_right)
   player_plane.rect.x = (pygame.display.get_surface().get_width() - player_plane.rect.right) / 2
   player_plane.rect.y = pygame.display.get_surface().get_height() - 100
   # Add player's plane to sprite list
   renderables.add(player_plane)
 
   # Create explosion
-  # Explosion(spritesheet_filename, rows, columns, width, height, delay)
-  explosion = Explosion('explosion.png', 3, 8, 64, 64, 2)
+  # Explosion(filename, rows, columns, width, height, delay)
+  explosion = Explosion('resources/explosion.png', 3, 8, 64, 64, 2)
   explosion.rect.x = 100
   explosion.rect.y = 100
   # Add explosion to sprite list
@@ -58,7 +63,19 @@ def main():
 
       # Reset player plane's sprite
       if event.type == pygame.KEYUP:
-        player_plane.reset_sprite()
+        player_plane.key_up()
+
+    # Update all sprites in the main sprite group
+    renderables.update()
+
+    # Clear Screen
+    screen.fill(WHITE)
+
+    # Draw all sprites
+    renderables.draw(screen)
+
+    # Refresh Screen
+    pygame.display.flip()
 
     # Get user's key presses
     pressed = pygame.key.get_pressed()
