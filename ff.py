@@ -40,15 +40,16 @@ def main():
   player_plane = Plane(player_plane_image_top, player_plane_image_left, player_plane_image_right)
   player_plane.rect.x = (pygame.display.get_surface().get_width() - player_plane.rect.right) / 2
   player_plane.rect.y = pygame.display.get_surface().get_height() - 100
-
-  # Create explosion
-  ex = Explosion()
-  ex.rect.x = 100
-  ex.rect.y = 100
-
   # Add player's plane to sprite list
   all_sprites_list.add(player_plane)
-  all_sprites_list.add(ex)
+
+  # Create explosion
+  # Explosion(filename, rows, columns, width, height, delay)
+  explosion = Explosion('resources/explosion.png', 3, 8, 64, 64, 2)
+  explosion.rect.x = 100
+  explosion.rect.y = 100
+  # Add explosion to sprite list
+  all_sprites_list.add(explosion)
 
   # -------- Main Program Loop -----------
   while not done:
@@ -67,7 +68,7 @@ def main():
     # Clear Screen
     screen.fill(WHITE)
 
-    # Now let's draw all the sprites in one go. (For now we only have 1 sprite!)
+    # Now let's draw all the sprites in one go.
     all_sprites_list.draw(screen)
 
     # Refresh Screen
