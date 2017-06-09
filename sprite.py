@@ -3,7 +3,6 @@ import pygame
 class Sprite(pygame.sprite.Sprite):
 
   def __init__(self, spritesheet_filename, width, height, rows, columns):
-    print('Creating sprite - Rows: ' + str(rows) + ' Columns: ' + str(columns))
     # Call the parent class (Sprite) constructor
     pygame.sprite.Sprite.__init__(self)
 

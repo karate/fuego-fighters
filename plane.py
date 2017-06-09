@@ -3,19 +3,19 @@ from sprite import Sprite
 
 class Plane(Sprite):
 
-  speed_h = 5
-  speed_v = 4
   hit_points = 100
 
   # Constructor. Pass in three images of the plane
-  def __init__(self, spritesheet_filename, width, height):
+  def __init__(self, spritesheet_filename, width, height, rows, columns, speed_h, speed_v):
     # Call the parent class (Sprite) constructor
-    Sprite.__init__(self, spritesheet_filename, width, height, 1, 3)
+    Sprite.__init__(self, spritesheet_filename, width, height, rows, columns)
 
-    print(self.images)
+    # Spritesheet must contain 3 sprites, with the following order
     self.image_left = self.images[0]
     self.image_top = self.images[1]
     self.image_right = self.images[2]
+    self.speed_h = speed_h
+    self.speed_v = speed_v
 
     # Set initial sprite
     self.image = self.image_top

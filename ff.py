@@ -1,6 +1,9 @@
 
 import pygame
+import random
+
 from plane import Plane
+from enemy import Enemy
 from explosion import Explosion
 
 def main():
@@ -32,12 +35,21 @@ def main():
   renderables = pygame.sprite.LayeredUpdates()
 
   # Create player's plane
-  # Plane(spritesheet_filename, width, height)
-  player_plane = Plane('player.png', 64, 64)
+  # Plane(spritesheet_filename, width, height, speed_h, speed_v)
+  player_plane = Plane('player.png', 64, 64, 1, 3, 5, 4)
   player_plane.rect.x = (pygame.display.get_surface().get_width() - player_plane.rect.right) / 2
   player_plane.rect.y = pygame.display.get_surface().get_height() - 100
   # Add player's plane to sprite list
   renderables.add(player_plane)
+
+  # Create 5 enemies
+  for i in range(5):
+    # Enemy(spritesheet_filename, width, height, speed_h, speed_v)
+    enemy_plane = Enemy('enemy.png', 31, 42, 1, 3, 1, .3)
+    enemy_plane.rect.x = random.randint(50, pygame.display.get_surface().get_width() - 50)
+    enemy_plane.rect.y = random.randint(50, pygame.display.get_surface().get_height() - 200)
+    # Add enemy plane to sprite list
+    renderables.add(enemy_plane)
 
   # Create explosion
   # Explosion(spritesheet_filename, rows, columns, width, height, delay)
