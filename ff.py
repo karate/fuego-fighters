@@ -31,14 +31,9 @@ def main():
   # This is a sprite group that keeps all our sprites. It also supports layers.
   renderables = pygame.sprite.LayeredUpdates()
 
-  # Load player's planeimages
-  player_plane_image_top = pygame.image.load("resources/plane_top.png").convert_alpha()
-  player_plane_image_left = pygame.image.load("resources/plane_left.png").convert_alpha()
-  player_plane_image_right = pygame.image.load("resources/plane_right.png").convert_alpha()
-
   # Create player's plane
-  # Plane(image_top, image_left = None, image_right = None)
-  player_plane = Plane(player_plane_image_top, player_plane_image_left, player_plane_image_right)
+  # Plane(image_top_filename, image_left_filename = None, image_right_filename = None)
+  player_plane = Plane('plane_top.png', 'plane_left.png', 'plane_right.png')
   player_plane.rect.x = (pygame.display.get_surface().get_width() - player_plane.rect.right) / 2
   player_plane.rect.y = pygame.display.get_surface().get_height() - 100
   # Add player's plane to sprite list
