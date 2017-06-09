@@ -32,8 +32,8 @@ def main():
   renderables = pygame.sprite.LayeredUpdates()
 
   # Create player's plane
-  # Plane(image_top_filename, image_left_filename = None, image_right_filename = None)
-  player_plane = Plane('plane_top.png', 'plane_left.png', 'plane_right.png')
+  # Plane(spritesheet_filename, width, height)
+  player_plane = Plane('player.png', 64, 64)
   player_plane.rect.x = (pygame.display.get_surface().get_width() - player_plane.rect.right) / 2
   player_plane.rect.y = pygame.display.get_surface().get_height() - 100
   # Add player's plane to sprite list

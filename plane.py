@@ -7,23 +7,30 @@ class Plane(pygame.sprite.Sprite):
   hit_points = 100
 
   # Constructor. Pass in three images of the plane
-  def __init__(self, image_top_filename, image_left_filename = None, image_right_filename = None):
+  def __init__(self, spritesheet_filename, width, height):
     # Call the parent class (Sprite) constructor
     pygame.sprite.Sprite.__init__(self)
 
     # Load sprites for the plane
-    self.image_top = pygame.image.load('resources/' + image_top_filename).convert_alpha()
+    sprite_sheet = pygame.image.load('resources/' + spritesheet_filename).convert_alpha()
 
-    # If image_left or image_right was not provided, use image_top instead
-    if image_left_filename:
-      self.image_left = pygame.image.load('resources/' + image_left_filename).convert_alpha()
-    else:
-      self.image_left = self.image_top
+    self.width = width
+    self.height = height
 
-    if image_right_filename:
-      self.image_right = pygame.image.load('resources/' + image_right_filename).convert_alpha()
-    else:
-      self.image_right = self.image_top
+     # extract images
+    self.images = []
+    for i in range(3):
+      # Rect(left, top, width, height)
+      rect = pygame.Rect((i*self.width, 0, self.width, self.height))
+      self.image = pygame.Surface(rect.size).convert()
+      self.image.set_colorkey(self.image.get_at((0,0)), pygame.RLEACCEL)
+      self.image.blit(sprite_sheet, (0, 0), rect)
+      self.images.append(self.image)
+
+    self.rect = self.images[0].get_rect()
+    self.image_left = self.images[0]
+    self.image_top = self.images[1]
+    self.image_right = self.images[2]
 
     # Set initial sprite
     self.image = self.image_top
