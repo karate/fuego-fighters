@@ -28,8 +28,8 @@ def main():
   pygame.display.set_caption("Fuego Fighters")
 
   # SPRITES
-  #This will be a list that will contain all the sprites we intend to use in our game.
-  all_sprites_list = pygame.sprite.Group()
+  # This is a sprite group that keeps all our sprites. It also supports layers.
+  renderables = pygame.sprite.LayeredUpdates()
 
   # Load player's planeimages
   player_plane_image_top = pygame.image.load("resources/plane_top.png").convert_alpha()
@@ -37,11 +37,12 @@ def main():
   player_plane_image_right = pygame.image.load("resources/plane_right.png").convert_alpha()
 
   # Create player's plane
+  # Plane(image_top, image_left = None, image_right = None)
   player_plane = Plane(player_plane_image_top, player_plane_image_left, player_plane_image_right)
   player_plane.rect.x = (pygame.display.get_surface().get_width() - player_plane.rect.right) / 2
   player_plane.rect.y = pygame.display.get_surface().get_height() - 100
   # Add player's plane to sprite list
-  all_sprites_list.add(player_plane)
+  renderables.add(player_plane)
 
   # Create explosion
   # Explosion(filename, rows, columns, width, height, delay)
@@ -49,7 +50,7 @@ def main():
   explosion.rect.x = 100
   explosion.rect.y = 100
   # Add explosion to sprite list
-  all_sprites_list.add(explosion)
+  renderables.add(explosion)
 
   # -------- Main Program Loop -----------
   while not done:
@@ -64,12 +65,14 @@ def main():
       if event.type == pygame.KEYUP:
         player_plane.key_up()
 
-    all_sprites_list.update()
+    # Update all sprites in the main sprite group
+    renderables.update()
+
     # Clear Screen
     screen.fill(WHITE)
 
-    # Now let's draw all the sprites in one go.
-    all_sprites_list.draw(screen)
+    # Draw all sprites
+    renderables.draw(screen)
 
     # Refresh Screen
     pygame.display.flip()
