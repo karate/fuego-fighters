@@ -37,6 +37,9 @@ class Plane(Sprite):
     # Don't let it go off the borders
     if self.rect.x < 0:
       self.rect.x = 0
+      # Return false if the plane has reached the border
+      return False
+    return True
 
   def move_right(self):
     # Change sprite
@@ -48,6 +51,9 @@ class Plane(Sprite):
     sprite_width = self.image.get_width()
     if self.rect.x > screen_width - sprite_width:
       self.rect.x = screen_width - sprite_width
+      # Return false if the plane has reached the border
+      return False
+    return True
 
   def move_up(self):
     # Move up

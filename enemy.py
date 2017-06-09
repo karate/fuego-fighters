@@ -9,15 +9,17 @@ class Enemy(Plane):
     self.direction = -1
 
   def update(self):
+    # If current direction is right
     if (self.direction == 1):
-      self.move_right()
-      screen_width = pygame.display.get_surface().get_width()
-      sprite_width = self.image.get_width()
-      if self.rect.x >= screen_width - sprite_width:
+      # Move right and check if the plane reached the edge
+      if not self.move_right():
+        # Change direction
         self.change_direction()
+    # If current direction is left
     elif (self.direction == -1):
-      self.move_left()
-      if (self.rect.x == 0):
+      # Move left and check if the plane reached the edge
+      if not self.move_left():
+        # Change direction
         self.change_direction()
 
   def change_direction(self):
