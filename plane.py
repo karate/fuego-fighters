@@ -1,20 +1,28 @@
 import pygame
 
 class Plane(pygame.sprite.Sprite):
-  # Constructor. Pass in the color of the block,
-  # and its x and y position
   speed_h = 5
   speed_v = 4
   hit_points = 100
 
-  def __init__(self, image_top, image_left, image_right):
+  # Constructor. Pass in three images of the plane
+  def __init__(self, image_top, image_left = None, image_right = None):
     # Call the parent class (Sprite) constructor
     pygame.sprite.Sprite.__init__(self)
 
     # Load sprites for the plane
     self.image_top = image_top
-    self.image_right = image_right
-    self.image_left = image_left
+
+    # If image_left or image_right was not provided, use image_top instead
+    if image_left:
+      self.image_left = image_left
+    else:
+      self.image_left = image_top
+
+    if image_right:
+      self.image_right = image_right
+    else:
+      self.image_right = image_top
 
     # Set initial sprite
     self.image = self.image_top
@@ -23,32 +31,43 @@ class Plane(pygame.sprite.Sprite):
     # Update the position of this object by setting the values of rect.x and rect.y
     self.rect = self.image.get_rect()
 
-  # Basinc movement
+  # Reset sprite to image_top
   def key_up(self):
     self.image = self.image_top
 
+  # Basic movement
   def move_left(self):
+    # Change sprite
     self.image = self.image_left
+    # Move left
     self.rect.x -= self.speed_h
+    # Don't let it go off the borders
     if self.rect.x < 0:
       self.rect.x = 0
 
   def move_right(self):
+    # Change sprite
     self.image = self.image_right
+    # Move right
+    self.rect.x += self.speed_h
+    # Don't let it go off the borders
     screen_width = pygame.display.get_surface().get_width()
     sprite_width = self.image.get_width()
-    self.rect.x += self.speed_h
     if self.rect.x > screen_width - sprite_width:
       self.rect.x = screen_width - sprite_width
 
   def move_up(self):
+    # Move up
     self.rect.y -= self.speed_v
+    # Don't let it go off the borders
     if self.rect.y < 0:
       self.rect.y = 0
   
   def move_down(self):
+    # Move down
+    self.rect.y += self.speed_v
+    # Don't let it go off the borders
     screen_height = pygame.display.get_surface().get_height()
     sprite_height = self.image.get_height()
-    self.rect.y += self.speed_v
     if self.rect.y > screen_height - sprite_height:
       self.rect.y = screen_height - sprite_height
