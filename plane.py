@@ -4,10 +4,8 @@ from bullet import Bullet
 
 class Plane(Sprite):
 
-  hit_points = 100
-
   # Constructor. Pass in three images of the plane
-  def __init__(self, spritesheet_filename, width, height, rows, columns, speed_h, speed_v, cooldown):
+  def __init__(self, spritesheet_filename, width, height, rows, columns, speed_h, speed_v, cooldown, hp):
     # Call the parent class (Sprite) constructor
     Sprite.__init__(self, spritesheet_filename, width, height, rows, columns)
 
@@ -19,6 +17,7 @@ class Plane(Sprite):
     self.speed_v = speed_v
     self.last_fire = pygame.time.get_ticks()
     self.cooldown = cooldown
+    self.hit_points = hp
     # This variable get True when the player releases the fire button,
     # so we can reduce the cooldown temporary
     self.keyup = False
@@ -55,6 +54,11 @@ class Plane(Sprite):
   # so we can reduce the cooldown
   def reset_weapon_colldown(self):
     self.keyup = True
+
+  def take_damage(self, damage):
+    self.hit_points -= damage
+    if self.hit_points <= 0:
+      self.kill()
 
   # Reset sprite to image_top
   def reset_sprite(self):

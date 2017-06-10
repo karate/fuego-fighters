@@ -3,9 +3,9 @@ from plane import Plane
 from bullet import Bullet
 
 class Enemy(Plane):
-  def __init__(self, spritesheet_filename, width, height, rows, columns, speed_h, speed_v):
+  def __init__(self, spritesheet_filename, width, height, rows, columns, speed_h, speed_v, cooldown, hit_points):
     # Call the parent class (Plane) constructor
-    Plane.__init__(self, spritesheet_filename, width, height, rows, columns, speed_h, speed_v, 1000)
+    Plane.__init__(self, spritesheet_filename, width, height, rows, columns, speed_h, speed_v, cooldown, hit_points)
 
     self.direction = -1
 

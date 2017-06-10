@@ -10,7 +10,7 @@ LAYER_EXPLOSIONS = 9
 
 def check_collisions(renderables):
   delete_out_of_bounds_bullets(renderables)
-  
+
   player_layer_sprites = renderables.get_sprites_from_layer(LAYER_PLAYER)
   if not player_layer_sprites:
     return
@@ -42,7 +42,7 @@ def check_collisions(renderables):
     explosion = get_explosion(player_plane.rect)
     renderables.add(explosion)
     # Remove player's plane
-    player_plane.kill()
+    player_plane.take_damage(10)
     # Remove enemy bullet
     collision.kill()
 
@@ -54,7 +54,7 @@ def check_collisions(renderables):
       explosion = get_explosion(enemy_plane.rect)
       renderables.add(explosion)
       # Remove enemy plane
-      enemy_plane.kill()
+      enemy_plane.take_damage(10)
       # Remove player's bullet
       collision.kill()
 
