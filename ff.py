@@ -34,6 +34,7 @@ def main():
   # SPRITES
   # This is a sprite group that keeps all our sprites. It also supports layers.
   renderables = pygame.sprite.LayeredUpdates()
+  enemy_renderables = pygame.sprite.LayeredUpdates()
 
   # Create player's plane
   # Plane(spritesheet_filename, width, height, speed_h, speed_v, cooldown)
@@ -49,8 +50,9 @@ def main():
     enemy_plane = Enemy('enemy.png', 31, 42, 1, 3, 1, .3)
     enemy_plane.rect.x = random.randint(50, pygame.display.get_surface().get_width() - 50)
     enemy_plane.rect.y = random.randint(50, pygame.display.get_surface().get_height() - 200)
+    pygame.time.set_timer(pygame.USEREVENT + i, random.randint(1000, 3000))
     # Add enemy plane to sprite list
-    renderables.add(enemy_plane)
+    enemy_renderables.add(enemy_plane)
 
   # Create explosion
   # Explosion(spritesheet_filename, rows, columns, width, height, delay)
@@ -73,6 +75,10 @@ def main():
       if event.type == pygame.KEYUP:
         player_plane.reset_sprite()
         player_plane.reset_weapon_colldown()
+
+      for i in range(5):
+        if event.type == pygame.USEREVENT + i:
+          enemy_renderables.get_sprite(i).fire(renderables)
 
     # Get user's key presses
     pressed = pygame.key.get_pressed()
@@ -103,12 +109,14 @@ def main():
 
     # Update all sprites in the main sprite group
     renderables.update()
+    enemy_renderables.update()
 
     # Clear Screen
     screen.fill(WHITE)
 
     # Draw all sprites
     renderables.draw(screen)
+    enemy_renderables.draw(screen)
 
     # Refresh Screen
     pygame.display.flip()

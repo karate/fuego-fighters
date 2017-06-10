@@ -45,7 +45,7 @@ class Plane(Sprite):
     if now - self.last_fire >= cd:
       self.last_fire = now
       self.keyup = False
-      bullet = Bullet('single_bullet.png', 8, 13, 1, 1, 6)
+      bullet = Bullet('player_bullet.png', 8, 13, 1, 1, 6, -1)
       bullet.rect.x = self.rect.x + (self.rect.width / 2)
       bullet.rect.y = self.rect.y - 10
       return bullet
