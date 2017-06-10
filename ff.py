@@ -5,6 +5,7 @@ import random
 from plane import Plane
 from enemy import Enemy
 from explosion import Explosion
+from bullet import Bullet
 
 def main():
 
@@ -35,8 +36,8 @@ def main():
   renderables = pygame.sprite.LayeredUpdates()
 
   # Create player's plane
-  # Plane(spritesheet_filename, width, height, speed_h, speed_v)
-  player_plane = Plane('player.png', 64, 64, 1, 3, 5, 4)
+  # Plane(spritesheet_filename, width, height, speed_h, speed_v, cooldown)
+  player_plane = Plane('player.png', 64, 64, 1, 3, 5, 4, 400)
   player_plane.rect.x = (pygame.display.get_surface().get_width() - player_plane.rect.right) / 2
   player_plane.rect.y = pygame.display.get_surface().get_height() - 100
   # Add player's plane to sprite list
@@ -71,6 +72,7 @@ def main():
       # Reset player plane's sprite
       if event.type == pygame.KEYUP:
         player_plane.reset_sprite()
+        player_plane.reset_weapon_colldown()
 
     # Get user's key presses
     pressed = pygame.key.get_pressed()
@@ -91,6 +93,13 @@ def main():
       # Move down
       if pressed[pygame.K_DOWN]:
         player_plane.move_down()
+      # Fire
+      if pressed[pygame.K_SPACE]:
+        # Create bullet
+        bullet = player_plane.fire()
+        if type(bullet) is Bullet:
+          renderables.add(bullet)
+        #print(bullet)
 
     # Update all sprites in the main sprite group
     renderables.update()

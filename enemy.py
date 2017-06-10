@@ -4,7 +4,7 @@ from plane import Plane
 class Enemy(Plane):
   def __init__(self, spritesheet_filename, width, height, rows, columns, speed_h, speed_v):
     # Call the parent class (Plane) constructor
-    Plane.__init__(self, spritesheet_filename, width, height, rows, columns, speed_h, speed_v)
+    Plane.__init__(self, spritesheet_filename, width, height, rows, columns, speed_h, speed_v, 1000)
 
     self.direction = -1
 
