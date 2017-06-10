@@ -4,6 +4,7 @@ import random
 
 from plane import Plane
 from enemy import Enemy
+from boss import Boss
 from explosion import Explosion
 from bullet import Bullet
 from collisions import *
@@ -53,13 +54,22 @@ def main():
 
   # Create 5 enemies
   for i in range(5):
-    # Enemy(spritesheet_filename, width, height, speed_h, speed_v, cooldown. hit_points)
+    # Enemy(spritesheet_filename, width, height, rows, columns, speed_h, speed_v, cooldown, hit_points)
     enemy_plane = Enemy('enemy.png', 31, 42, 1, 3, 1, .3, 0, 20)
     enemy_plane.rect.x = random.randint(50, pygame.display.get_surface().get_width() - 50)
     enemy_plane.rect.y = random.randint(50, pygame.display.get_surface().get_height() - 200)
     pygame.time.set_timer(pygame.USEREVENT + i, random.randint(1000, 3000))
     # Add enemy plane to sprite list
     renderables.add(enemy_plane, layer = LAYER_ENEMIES)
+
+  # Create boss
+  # Enemy(spritesheet_filename, width, height, rows, columns, speed_h, speed_v, cooldown, hit_points)
+  boss_plane = Boss('boss.png', 157, 135, 1, 1, 1, .3, 0, 500)
+  boss_plane.rect.x = pygame.display.get_surface().get_width() / 2
+  boss_plane.rect.y = 200
+  pygame.time.set_timer(pygame.USEREVENT + i, 5000)
+  # Add enemy plane to sprite list
+  renderables.add(boss_plane, layer = LAYER_ENEMIES)
 
   # -------- Main Program Loop -----------
   while not done:

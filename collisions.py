@@ -28,7 +28,7 @@ def check_collisions(renderables):
   collision = pygame.sprite.spritecollideany(player_plane, enemy_planes, pygame.sprite.collide_mask)
   if collision:
     # Draw explosion
-    explosion = get_explosion(player_plane.rect)
+    explosion = get_explosion(collision.rect)
     renderables.add(explosion)
     # Remove player's plane
     player_plane.kill()
@@ -38,11 +38,15 @@ def check_collisions(renderables):
   # Check if the player was hit by enemy fire
   collision = pygame.sprite.spritecollideany(player_plane, enemy_bullets, pygame.sprite.collide_mask)
   if collision:
-    # Draw explosion
-    explosion = get_explosion(player_plane.rect)
-    renderables.add(explosion)
-    # Remove player's plane
-    player_plane.take_damage(10)
+    if player_plane.take_damage(10):
+      # Draw explosion
+      explosion = get_explosion(collision.rect)
+      renderables.add(explosion)
+    else:
+      # Draw hit
+      hit = get_hit(collision.rect)
+      renderables.add(hit)
+
     # Remove enemy bullet
     collision.kill()
 
@@ -50,17 +54,27 @@ def check_collisions(renderables):
   for idx, enemy_plane in enumerate(enemy_planes):
     collision = pygame.sprite.spritecollideany(enemy_plane, player_bullets, pygame.sprite.collide_mask)
     if collision:
-      # Draw explosion
-      explosion = get_explosion(enemy_plane.rect)
-      renderables.add(explosion)
       # Remove enemy plane
-      enemy_plane.take_damage(10)
+      if enemy_plane.take_damage(10):
+        # Draw explosion
+        explosion = get_explosion(collision.rect)
+        renderables.add(explosion)
+      else:
+        # Draw hit
+        hit = get_hit(collision.rect)
+        renderables.add(hit)
+
       # Remove player's bullet
       collision.kill()
 
 # Returns an explosion object, at the specified position (rect)
 def get_explosion(position):
   explosion = Explosion('explosion.png', 64, 64, 3, 8, 4)
+  explosion.rect = pygame.Rect(position)
+  return explosion
+
+def get_hit(position):
+  explosion = Explosion('player_damage.png', 20, 17, 1, 4, 5)
   explosion.rect = pygame.Rect(position)
   return explosion
 

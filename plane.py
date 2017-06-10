@@ -10,9 +10,15 @@ class Plane(Sprite):
     Sprite.__init__(self, spritesheet_filename, width, height, rows, columns)
 
     # Spritesheet must contain 3 sprites, with the following order
-    self.image_left = self.images[0]
-    self.image_top = self.images[1]
-    self.image_right = self.images[2]
+    if len(self.images) == 3:
+      self.image_left = self.images[0]
+      self.image_top = self.images[1]
+      self.image_right = self.images[2]
+    else:
+      self.image_left = self.images[0]
+      self.image_top = self.images[0]
+      self.image_right = self.images[0]
+
     self.speed_h = speed_h
     self.speed_v = speed_v
     self.last_fire = pygame.time.get_ticks()
@@ -59,6 +65,8 @@ class Plane(Sprite):
     self.hit_points -= damage
     if self.hit_points <= 0:
       self.kill()
+      return True
+    return False
 
   # Reset sprite to image_top
   def reset_sprite(self):
