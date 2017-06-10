@@ -29,6 +29,7 @@ class Plane(Sprite):
     # Fetch the rectangle object that has the dimensions of the image
     # Update the position of this object by setting the values of rect.x and rect.y
     self.rect = self.image.get_rect()
+    self.mask = pygame.mask.from_surface(self.image)
 
   def fire(self):
     # Calculate the last time the gun fired
@@ -58,11 +59,13 @@ class Plane(Sprite):
   # Reset sprite to image_top
   def reset_sprite(self):
     self.image = self.image_top
+    self.mask = pygame.mask.from_surface(self.image)
 
   # Basic movement
   def move_left(self):
     # Change sprite
     self.image = self.image_left
+    self.mask = pygame.mask.from_surface(self.image)
     # Move left
     self.rect.x -= self.speed_h
     # Don't let it go off the borders
@@ -75,6 +78,7 @@ class Plane(Sprite):
   def move_right(self):
     # Change sprite
     self.image = self.image_right
+    self.mask = pygame.mask.from_surface(self.image)
     # Move right
     self.rect.x += self.speed_h
     # Don't let it go off the borders

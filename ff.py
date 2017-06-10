@@ -6,8 +6,16 @@ from plane import Plane
 from enemy import Enemy
 from explosion import Explosion
 from bullet import Bullet
+from collisions import *
 
 def main():
+
+  # DEFINES
+  LAYER_PLAYER = 1
+  LAYER_PLAYER_BULLETS = 2
+  LAYER_ENEMIES = 3
+  LAYER_ENEMY_BULLETS = 4
+  LAYER_EXPLOSIONS = 9
 
   # Set window size
   window_size = (400, 800)
@@ -34,7 +42,6 @@ def main():
   # SPRITES
   # This is a sprite group that keeps all our sprites. It also supports layers.
   renderables = pygame.sprite.LayeredUpdates()
-  enemy_renderables = pygame.sprite.LayeredUpdates()
 
   # Create player's plane
   # Plane(spritesheet_filename, width, height, speed_h, speed_v, cooldown)
@@ -42,7 +49,7 @@ def main():
   player_plane.rect.x = (pygame.display.get_surface().get_width() - player_plane.rect.right) / 2
   player_plane.rect.y = pygame.display.get_surface().get_height() - 100
   # Add player's plane to sprite list
-  renderables.add(player_plane)
+  renderables.add(player_plane, layer = LAYER_PLAYER)
 
   # Create 5 enemies
   for i in range(5):
@@ -52,18 +59,12 @@ def main():
     enemy_plane.rect.y = random.randint(50, pygame.display.get_surface().get_height() - 200)
     pygame.time.set_timer(pygame.USEREVENT + i, random.randint(1000, 3000))
     # Add enemy plane to sprite list
-    enemy_renderables.add(enemy_plane)
-
-  # Create explosion
-  # Explosion(spritesheet_filename, rows, columns, width, height, delay)
-  explosion = Explosion('explosion.png', 64, 64, 3, 8, 4)
-  explosion.rect.x = 100
-  explosion.rect.y = 100
-  # Add explosion to sprite list
-  renderables.add(explosion)
+    renderables.add(enemy_plane, layer = LAYER_ENEMIES)
 
   # -------- Main Program Loop -----------
   while not done:
+    check_collisions(renderables)
+
     # --- Main event loop
     for event in pygame.event.get():  # User did something
       # If user clicked close
@@ -76,9 +77,11 @@ def main():
         player_plane.reset_sprite()
         player_plane.reset_weapon_colldown()
 
-      for i in range(5):
-        if event.type == pygame.USEREVENT + i:
-          enemy_renderables.get_sprite(i).fire(renderables)
+      enemy_planes = renderables.get_sprites_from_layer(LAYER_ENEMIES)
+      for idx, enemy_plane in enumerate(enemy_planes):
+        if event.type == pygame.USEREVENT + idx:
+          bullet = enemy_plane.fire()
+          renderables.add(bullet, layer = LAYER_ENEMY_BULLETS)
 
     # Get user's key presses
     pressed = pygame.key.get_pressed()
@@ -87,36 +90,35 @@ def main():
       done = True
     # Arrows move the player's plane
     else:
-      # Move right
-      if pressed[pygame.K_RIGHT]:
-        player_plane.move_right()
-      # More left
-      if pressed[pygame.K_LEFT]:
-        player_plane.move_left()
-      # Move up
-      if pressed[pygame.K_UP]:
-        player_plane.move_up()
-      # Move down
-      if pressed[pygame.K_DOWN]:
-        player_plane.move_down()
-      # Fire
-      if pressed[pygame.K_SPACE]:
-        # Create bullet
-        bullet = player_plane.fire()
-        if type(bullet) is Bullet:
-          renderables.add(bullet)
-        #print(bullet)
+      # If the player is still in the game
+      if renderables.get_sprites_from_layer(LAYER_PLAYER):
+        # Move right
+        if pressed[pygame.K_RIGHT]:
+          player_plane.move_right()
+        # More left
+        if pressed[pygame.K_LEFT]:
+          player_plane.move_left()
+        # Move up
+        if pressed[pygame.K_UP]:
+          player_plane.move_up()
+        # Move down
+        if pressed[pygame.K_DOWN]:
+          player_plane.move_down()
+        # Fire
+        if pressed[pygame.K_SPACE]:
+          # Create bullet
+          bullet = player_plane.fire()
+          if type(bullet) is Bullet:
+            renderables.add(bullet, layer = LAYER_PLAYER_BULLETS)
 
     # Update all sprites in the main sprite group
     renderables.update()
-    enemy_renderables.update()
 
     # Clear Screen
     screen.fill(WHITE)
 
     # Draw all sprites
     renderables.draw(screen)
-    enemy_renderables.draw(screen)
 
     # Refresh Screen
     pygame.display.flip()

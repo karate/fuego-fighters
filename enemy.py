@@ -26,8 +26,8 @@ class Enemy(Plane):
   def change_direction(self):
     self.direction = self.direction * -1
 
-  def fire(self, renderables):
+  def fire(self):
       bullet = Bullet('enemy_bullet.png', 8, 13, 1, 1, 6, 1)
       bullet.rect.x = self.rect.x + (self.rect.width / 2)
       bullet.rect.y = self.rect.y - 10
-      renderables.add(bullet)
+      return bullet

@@ -26,6 +26,5 @@ class Explosion(Sprite):
     if self.timer > self.animation_delay:
       self.timer = 0
       self.image_index += 1
-      if self.image_index >= len(self.images):
-          self.image_index = 0
-      self.image = self.images[self.image_index]
+      if self.image_index < len(self.images):
+        self.image = self.images[self.image_index]
