@@ -1,5 +1,5 @@
 import pygame
-from explosion import Explosion
+from src.Sprites import Explosion
 
 # DEFINES
 LAYER_PLAYER = 1

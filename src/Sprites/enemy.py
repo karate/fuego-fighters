@@ -1,6 +1,6 @@
 import pygame
-from plane import Plane
-from bullet import Bullet
+from .plane import Plane
+from .bullet import Bullet
 
 class Enemy(Plane):
   def __init__(self, spritesheet_filename, width, height, rows, columns, speed_h, speed_v, cooldown, hit_points):

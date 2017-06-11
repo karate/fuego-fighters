@@ -1,6 +1,6 @@
 import pygame
-from bullet import Bullet
-from enemy import Enemy
+from .bullet import Bullet
+from .enemy import Enemy
 
 class Boss(Enemy):
   def __init__(self, spritesheet_filename, width, height, rows, columns, speed_h, speed_v, cooldown, hit_points):

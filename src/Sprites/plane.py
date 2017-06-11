@@ -1,6 +1,6 @@
 import pygame
-from sprite import Sprite
-from bullet import Bullet
+from .sprite import Sprite
+from .bullet import Bullet
 
 class Plane(Sprite):
 

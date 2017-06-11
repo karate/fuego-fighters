@@ -2,12 +2,8 @@
 import pygame
 import random
 
-from plane import Plane
-from enemy import Enemy
-from boss import Boss
-from explosion import Explosion
-from bullet import Bullet
-from collisions import *
+from src.Sprites import *
+from src.Collisions import *
 from ArcadeFont import ArcadeFont
 
 def main():
@@ -72,8 +68,8 @@ def main():
   # Add enemy plane to sprite list
   renderables.add(boss_plane, layer = LAYER_ENEMIES)
 
-  font = ArcadeFont(20)
-  text = font.get_text("Press 'q' to quit", (0, 0, 124))
+  font = ArcadeFont(15)
+  text = font.get_text("Press SPACE to fire. Press 'q' to quit", (0, 0, 124))
 
 
   # -------- Main Program Loop -----------
