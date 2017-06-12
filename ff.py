@@ -12,6 +12,8 @@ class Layer:
     ENEMY_BULLETS = 4
     EXPLOSIONS = 9
 
+UPDATE_INTERVAL = 5000
+
 
 def main():
     # Set window size
@@ -33,56 +35,71 @@ def main():
 
     pygame.display.set_caption("Fuego Fighters")
 
-    player_plane, renderables = create_map()
+    # SPRITES
+    # This is a sprite group that keeps all our sprites. It also supports layers.
+    renderables = pygame.sprite.LayeredUpdates()
+
+    player_plane = create_player_plane(renderables)
+    update_map(renderables)
 
     font = ArcadeFont(15)
     text = font.get_text("Press SPACE to fire. Press 'q' to quit", (0, 0, 124))
 
     while main_loop(WHITE, clock, player_plane, renderables, screen, text, window_size):
-        player_plane, renderables = create_map()
+        # Reset renderables in order to be able to loop again
+        renderables = pygame.sprite.LayeredUpdates()
+        player_plane = create_player_plane(renderables)
+        update_map(renderables)
         pygame.time.delay(500)
 
 
-def create_map():
-    """It creates the player plane and renderables objects
+def create_player_plane(renderables):
+    """It creates the player plane
 
-    :return: player_plane, renderables
+    :return: player_plane
     """
-    # SPRITES
-    # This is a sprite group that keeps all our sprites. It also supports layers.
-    renderables = pygame.sprite.LayeredUpdates()
     # Create player's plane
     # Plane(spritesheet_filename, width, height, speed_h, speed_v, cooldown, hot_points)
-    player_plane = Plane('player.png', 64, 64, 1, 3, 5, 4, 400, 30)
+    player_plane = Plane('player.png', 64, 64, 1, 3, 5, 4, 100, 30)
     player_plane.rect.x = (pygame.display.get_surface().get_width() - player_plane.rect.right) / 2
     player_plane.rect.y = pygame.display.get_surface().get_height() - 100
     # Add player's plane to sprite list
     renderables.add(player_plane, layer=Layer.PLAYER)
+    return player_plane
+
+
+def update_map(renderables):
+    now = pygame.time.get_ticks()
+    # Enemy(spritesheet_filename, width, height, rows, columns, speed_h, speed_v, cooldown, hit_points)
+    enemy_plane = Enemy('enemy.png', 31, 42, 1, 3, 1, 1, 10, 20)
+    enemy_plane.rect.x = random.randint(50, pygame.display.get_surface().get_width() - 50)
+    enemy_plane.rect.y = random.randint(50, pygame.display.get_surface().get_height() - 200)
+    pygame.time.set_timer(30, random.randint(1000, 3000))
     # Create 5 enemies
-    for i in range(5):
+    for i in range(2):
         # Enemy(spritesheet_filename, width, height, rows, columns, speed_h, speed_v, cooldown, hit_points)
-        enemy_plane = Enemy('enemy.png', 31, 42, 1, 3, 1, .3, 0, 20)
+        enemy_plane = Enemy('enemy.png', 31, 42, 1, 5, 1, 3, 10, 20)
         enemy_plane.rect.x = random.randint(50, pygame.display.get_surface().get_width() - 50)
-        enemy_plane.rect.y = random.randint(50, pygame.display.get_surface().get_height() - 200)
+        enemy_plane.rect.y = 0
         pygame.time.set_timer(pygame.USEREVENT + i, random.randint(1000, 3000))
-        # Add enemy plane to sprite list
         renderables.add(enemy_plane, layer=Layer.ENEMIES)
 
     # Create boss
     # Enemy(spritesheet_filename, width, height, rows, columns, speed_h, speed_v, cooldown, hit_points)
-    boss_plane = Boss('boss.png', 157, 135, 1, 1, 1, .3, 0, 500)
-    boss_plane.rect.x = pygame.display.get_surface().get_width() / 2
-    boss_plane.rect.y = 200
-    pygame.time.set_timer(pygame.USEREVENT + 5, 5000)
-    # Add enemy plane to sprite list
-    renderables.add(boss_plane, layer=Layer.ENEMIES)
-    return player_plane, renderables
+    # boss_plane = Boss('boss.png', 157, 135, 1, 1, 1, .3, 0, 500)
+    # boss_plane.rect.x = pygame.display.get_surface().get_width() / 2
+    # boss_plane.rect.y = 200
+    # pygame.time.set_timer(pygame.USEREVENT + 5, 5000)
+    # # Add enemy plane to sprite list
+    # renderables.add(boss_plane, layer=Layer.ENEMIES)
 
 
 def main_loop(WHITE, clock, player_plane, renderables, screen, text, window_size):
     # Loop until the user clicks the close button.
     done = False
     restart = False
+
+    last_update = 0
 
     # -------- Main Program Loop -----------
     while not done:
@@ -150,7 +167,12 @@ def main_loop(WHITE, clock, player_plane, renderables, screen, text, window_size
         # Refresh Screen
         pygame.display.flip()
 
-        # Number of frames per secong
+        now = pygame.time.get_ticks()
+        if now - last_update >= UPDATE_INTERVAL:
+            last_update = now
+            update_map(renderables)
+
+        # Number of frames per second
         # 30fps generate flickering. Going with 60
         clock.tick(60)
     if restart:

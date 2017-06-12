@@ -73,6 +73,9 @@ class Plane(Sprite):
         self.image = self.image_top
         self.mask = pygame.mask.from_surface(self.image)
 
+    def disappear(self):
+        self.kill()
+
     # Basic movement
     def move_left(self):
         # Change sprite
@@ -117,3 +120,6 @@ class Plane(Sprite):
         sprite_height = self.image.get_height()
         if self.rect.y > screen_height - sprite_height:
             self.rect.y = screen_height - sprite_height
+            # Return false if the plane has reached the border
+            return False
+        return True
