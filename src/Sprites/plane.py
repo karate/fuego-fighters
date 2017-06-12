@@ -58,7 +58,7 @@ class Plane(Sprite):
 
     # Remember that the player has released the fire button,
     # so we can reduce the cooldown
-    def reset_weapon_colldown(self):
+    def reset_weapon_cooldown(self):
         self.keyup = True
 
     def take_damage(self, damage):

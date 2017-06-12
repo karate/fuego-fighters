@@ -1,4 +1,5 @@
 import pygame
+from os.path import sep
 from .sprite import Sprite
 
 
@@ -9,7 +10,7 @@ class Bullet(Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         # Load sprite sheet
-        sprite_sheet = pygame.image.load('resources/' + spritesheet_filename).convert_alpha()
+        _ = pygame.image.load(sep.join(['resources', spritesheet_filename])).convert_alpha()
 
         self.width = width
         self.height = height
