@@ -5,3 +5,4 @@ lib
 lib64
 *.swp
 pip-selfcheck.json
+*.idea
