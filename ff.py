@@ -1,55 +1,35 @@
-import random
-
-from src.Sprites import *
-from src.Collisions import *
 from ArcadeFont import ArcadeFont
-
-
-class Layer:
-    PLAYER = 1
-    PLAYER_BULLETS = 2
-    ENEMIES = 3
-    ENEMY_BULLETS = 4
-    EXPLOSIONS = 9
-
-UPDATE_INTERVAL = 5000
+from constants import Constants
+from constants import Layer
+from src.Collisions import *
+from src.Sprites import *
 
 
 def main():
-    # Set window size
-    window_size = (400, 800)
-
-    # Basic colors
-    WHITE = (255, 255, 255)
-    BLACK = (0, 0, 0)
-
-    # Select the font to use, size, bold, italics
-    font = pygame.font.SysFont('Calibri', 40, False, False)
-    wpm_font = pygame.font.SysFont('Calibri', 15, False, False)
-
     # Used to manage how fast the screen updates
     clock = pygame.time.Clock()
 
     # Create screen
-    screen = pygame.display.set_mode(window_size)
+    screen = pygame.display.set_mode(Constants.WINDOW_SIZE)
 
     pygame.display.set_caption("Fuego Fighters")
 
     # SPRITES
-    # This is a sprite group that keeps all our sprites. It also supports layers.
+    # This is a sprite group that keeps all our sprites.
+    # It also supports layers.
     renderables = pygame.sprite.LayeredUpdates()
 
     player_plane = create_player_plane(renderables)
-    update_map(renderables)
+    # update_map(renderables)
 
     font = ArcadeFont(15)
     text = font.get_text("Press SPACE to fire. Press 'q' to quit", (0, 0, 124))
 
-    while main_loop(WHITE, clock, player_plane, renderables, screen, text, window_size):
+    while main_loop(clock, player_plane, renderables, screen, text):
         # Reset renderables in order to be able to loop again
         renderables = pygame.sprite.LayeredUpdates()
         player_plane = create_player_plane(renderables)
-        update_map(renderables)
+        # update_map(renderables)
         pygame.time.delay(500)
 
 
@@ -59,47 +39,24 @@ def create_player_plane(renderables):
     :return: player_plane
     """
     # Create player's plane
-    # Plane(spritesheet_filename, width, height, speed_h, speed_v, cooldown, hot_points)
+    # Plane(spritesheet_filename, width, height, speed_h, speed_v,
+    #       cooldown, hot_points)
     player_plane = Plane('player.png', 64, 64, 1, 3, 5, 4, 100, 30)
-    player_plane.rect.x = (pygame.display.get_surface().get_width() - player_plane.rect.right) / 2
+    player_plane.rect.x = (pygame.display.get_surface().get_width() -
+                           player_plane.rect.right) / 2
     player_plane.rect.y = pygame.display.get_surface().get_height() - 100
     # Add player's plane to sprite list
     renderables.add(player_plane, layer=Layer.PLAYER)
     return player_plane
 
 
-def update_map(renderables):
-    now = pygame.time.get_ticks()
-    # Enemy(spritesheet_filename, width, height, rows, columns, speed_h, speed_v, cooldown, hit_points)
-    enemy_plane = Enemy('enemy.png', 31, 42, 1, 3, 1, 1, 10, 20)
-    enemy_plane.rect.x = random.randint(50, pygame.display.get_surface().get_width() - 50)
-    enemy_plane.rect.y = random.randint(50, pygame.display.get_surface().get_height() - 200)
-    pygame.time.set_timer(30, random.randint(1000, 3000))
-    # Create 5 enemies
-    for i in range(2):
-        # Enemy(spritesheet_filename, width, height, rows, columns, speed_h, speed_v, cooldown, hit_points)
-        enemy_plane = Enemy('enemy.png', 31, 42, 1, 5, 1, 3, 10, 20)
-        enemy_plane.rect.x = random.randint(50, pygame.display.get_surface().get_width() - 50)
-        enemy_plane.rect.y = 0
-        pygame.time.set_timer(pygame.USEREVENT + i, random.randint(1000, 3000))
-        renderables.add(enemy_plane, layer=Layer.ENEMIES)
-
-    # Create boss
-    # Enemy(spritesheet_filename, width, height, rows, columns, speed_h, speed_v, cooldown, hit_points)
-    # boss_plane = Boss('boss.png', 157, 135, 1, 1, 1, .3, 0, 500)
-    # boss_plane.rect.x = pygame.display.get_surface().get_width() / 2
-    # boss_plane.rect.y = 200
-    # pygame.time.set_timer(pygame.USEREVENT + 5, 5000)
-    # # Add enemy plane to sprite list
-    # renderables.add(boss_plane, layer=Layer.ENEMIES)
-
-
-def main_loop(WHITE, clock, player_plane, renderables, screen, text, window_size):
+def main_loop(clock, player_plane, renderables, screen, text):
     # Loop until the user clicks the close button.
     done = False
     restart = False
 
     last_update = 0
+    horde = Hordes(renderables, 'v')
 
     # -------- Main Program Loop -----------
     while not done:
@@ -158,19 +115,24 @@ def main_loop(WHITE, clock, player_plane, renderables, screen, text, window_size
         renderables.update()
 
         # Clear Screen
-        screen.fill(WHITE)
+        screen.fill(Constants.WHITE)
 
         # Draw all sprites
         renderables.draw(screen)
-        screen.blit(text, text.get_rect(center=(window_size[0] / 2, 50)))
+        screen.blit(
+            text, text.get_rect(center=(Constants.X_CENTER, 50))
+        )
 
         # Refresh Screen
         pygame.display.flip()
 
         now = pygame.time.get_ticks()
-        if now - last_update >= UPDATE_INTERVAL:
+        if now - last_update >= Constants.UPDATE_INTERVAL and not horde.active:
             last_update = now
-            update_map(renderables)
+            horde.activate()
+        if now - last_update >= horde.interval and horde.active:
+            last_update = now
+            horde.render_line()
 
         # Number of frames per second
         # 30fps generate flickering. Going with 60

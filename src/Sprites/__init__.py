@@ -4,3 +4,4 @@ from .enemy import Enemy
 from .boss import Boss
 from .bullet import Bullet
 from .explosion import Explosion
+from .hordes import Hordes

@@ -1,15 +1,17 @@
-import random
 from .plane import Plane
 from .bullet import Bullet
 
 
 class Enemy(Plane):
-    def __init__(self, spritesheet_filename, width, height, rows, columns, speed_h, speed_v, cooldown, hit_points):
+    def __init__(self, width, height, rows, columns, speed_h, speed_v,
+                 cooldown, hit_points, x, y, spritesheet_filename='enemy.png'):
         # Call the parent class (Plane) constructor
-        Plane.__init__(self, spritesheet_filename, width, height, rows, columns, speed_h, speed_v, cooldown, hit_points)
-
+        Plane.__init__(self, spritesheet_filename, width, height,
+                       rows, columns, speed_h, speed_v, cooldown, hit_points)
+        self.rect.x = x
+        self.rect.y = y
         # Choose the direction randomly 1 for right, -1 for left
-        self.direction = [-1, 1][random.randint(0, 1)]
+        self.direction = -1  # [-1, 1][random.randint(0, 1)]
         self.TOWARDS = {-1: self.move_left, 1: self.move_right}
 
     def update(self):
