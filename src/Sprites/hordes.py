@@ -17,10 +17,9 @@ class Hordes:
         self.current_line = None
         self.renderables = renderables
         self.formation = formation
-        self.column_width = len(Constants.FORMATIONS[self.formation][0])
-        self.column_height = len(Constants.FORMATIONS[self.formation])
-        self.column_size = pygame.display.get_surface().get_width() / (
-            self.column_width * 50)
+        self.columns = len(Constants.FORMATIONS[self.formation][0])
+        self.rows = len(Constants.FORMATIONS[self.formation])
+        self.column_size = pygame.display.get_surface().get_width() / self.columns
 
     def activate(self):
         """Activate horde generation mode
@@ -28,7 +27,7 @@ class Hordes:
         :return: None
         """
         self.active = True
-        self.current_line = self.column_height - 1
+        self.current_line = self.rows - 1
 
     def deactivate(self):
         """De-activate horde generation
@@ -36,7 +35,7 @@ class Hordes:
         :return: None
         """
         self.active = False
-        self.current_line = self.column_height - 1
+        self.current_line = self.rows - 1
 
     def render_line(self):
         try:
@@ -44,10 +43,11 @@ class Hordes:
             for pos, plane in enumerate(map_line):
                 if plane:
                     # Enemy(width, height, rows, columns, speed_h, speed_v,
-                    #       cooldown, hit_points, x, y)
-                    x = self.column_size * pos * 50
-                    self.renderables.add(Enemy(31, 42, 1, 5, 0, 3, 10, 20,
-                                               int(x), 0), layer=Layer.ENEMIES)
+                    #       cooldown, hit_points, x=0, y=0)
+                    enemy = Enemy(31, 42, 1, 3, 0, 3, 10, 20)
+                    enemy.rect.x = self.column_size * pos + (enemy.rect.width / 2)
+                    enemy.rect.y = 0
+                    self.renderables.add(enemy, layer=Layer.ENEMIES)
             self.current_line -= 1
             if self.current_line < 0:
                 raise IndexError
@@ -63,4 +63,3 @@ class Hordes:
     # pygame.time.set_timer(pygame.USEREVENT + 5, 5000)
     # # Add enemy plane to sprite list
     # renderables.add(boss_plane, layer=Layer.ENEMIES)
-
