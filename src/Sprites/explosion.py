@@ -4,12 +4,15 @@ from .sprite import Sprite
 
 class Explosion(Sprite):
     # Constructor. Pass in three images of the plane
-    def __init__(self, spritesheet_filename, width, height, rows, columns, delay):
+    def __init__(self, spritesheet_filename, width, height, rows,
+                 columns, delay):
         # Call the parent class (Sprite) constructor
         pygame.sprite.Sprite.__init__(self)
 
         # Load sprite sheet
-        sprite_sheet = pygame.image.load('resources/' + spritesheet_filename).convert_alpha()
+        sprite_sheet = pygame.image.load(
+            'resources/' + spritesheet_filename
+        ).convert_alpha()
 
         self.width = width
         self.height = height
@@ -17,7 +20,8 @@ class Explosion(Sprite):
         self.timer = 0
         self.animation_delay = delay
 
-        Sprite.__init__(self, spritesheet_filename, width, height, rows, columns)
+        Sprite.__init__(self, spritesheet_filename, width, height, rows,
+                        columns)
 
         self.image = self.images[0]
 

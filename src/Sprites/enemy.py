@@ -4,7 +4,8 @@ from .bullet import Bullet
 
 class Enemy(Plane):
     def __init__(self, width, height, rows, columns, speed_h, speed_v,
-                 cooldown, hit_points, x=0, y=0, spritesheet_filename='enemy.png'):
+                 cooldown, hit_points, x=0, y=0,
+                 spritesheet_filename='enemy.png'):
         # Call the parent class (Plane) constructor
         Plane.__init__(self, spritesheet_filename, width, height,
                        rows, columns, speed_h, speed_v, cooldown, hit_points)

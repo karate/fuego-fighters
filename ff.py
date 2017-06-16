@@ -56,7 +56,7 @@ def main_loop(clock, player_plane, renderables, screen, text):
     restart = False
 
     last_update = 0
-    horde = Hordes(renderables, 'v')
+    horde = Horde(renderables, 'v')
 
     # -------- Main Program Loop -----------
     while not done:

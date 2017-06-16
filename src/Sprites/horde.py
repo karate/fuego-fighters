@@ -1,10 +1,16 @@
+"""
+Class responsible for generation of horde of airplanes in formations.
+"""
 import pygame
-from .enemy import Enemy
 from constants import Constants
 from constants import Layer
+from .enemy import Enemy
 
 
-class Hordes:
+class Horde:
+    """
+    Horde of airplanes
+    """
     def __init__(self, renderables, formation, interval=300):
         """It creates hordes of enemies
 
@@ -19,7 +25,8 @@ class Hordes:
         self.formation = formation
         self.columns = len(Constants.FORMATIONS[self.formation][0])
         self.rows = len(Constants.FORMATIONS[self.formation])
-        self.column_size = pygame.display.get_surface().get_width() / self.columns
+        self.column_size = pygame.display.get_surface().get_width() / \
+            self.columns
 
     def activate(self):
         """Activate horde generation mode
@@ -38,6 +45,10 @@ class Hordes:
         self.current_line = self.rows - 1
 
     def render_line(self):
+        """Render each line of the choosen formation
+
+        :return:
+        """
         try:
             map_line = Constants.FORMATIONS[self.formation][self.current_line]
             for pos, plane in enumerate(map_line):
@@ -45,7 +56,8 @@ class Hordes:
                     # Enemy(width, height, rows, columns, speed_h, speed_v,
                     #       cooldown, hit_points, x=0, y=0)
                     enemy = Enemy(31, 42, 1, 3, 0, 3, 10, 20)
-                    enemy.rect.x = self.column_size * pos + (enemy.rect.width / 2)
+                    enemy.rect.x = self.column_size * pos + \
+                        (enemy.rect.width / 2)
                     enemy.rect.y = 0
                     self.renderables.add(enemy, layer=Layer.ENEMIES)
             self.current_line -= 1

@@ -7,7 +7,9 @@ class Sprite(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         # Load sprites for the plane
-        sprite_sheet = pygame.image.load('resources/' + spritesheet_filename).convert_alpha()
+        sprite_sheet = pygame.image.load(
+            'resources/' + spritesheet_filename
+        ).convert_alpha()
 
         self.width = width
         self.height = height
@@ -17,7 +19,8 @@ class Sprite(pygame.sprite.Sprite):
         for i in range(rows):
             for j in range(columns):
                 # Rect(left, top, width, height)
-                rect = pygame.Rect((j * self.width, i * self.height, self.width, self.height))
+                rect = pygame.Rect((j * self.width, i * self.height,
+                                    self.width, self.height))
                 image = pygame.Surface(rect.size).convert()
                 image.set_colorkey(image.get_at((0, 0)), pygame.RLEACCEL)
                 image.blit(sprite_sheet, (0, 0), rect)

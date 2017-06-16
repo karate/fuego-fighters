@@ -26,7 +26,8 @@ def check_collisions(renderables):
     enemy_bullets = renderables.get_sprites_from_layer(LAYER_ENEMY_BULLETS)
 
     # Check if the player has hit an enemy plane
-    collision = pygame.sprite.spritecollideany(player_plane, enemy_planes, pygame.sprite.collide_mask)
+    collision = pygame.sprite.spritecollideany(player_plane, enemy_planes,
+                                               pygame.sprite.collide_mask)
     if collision:
         # Draw explosion
         explosion = get_explosion(collision.rect)
@@ -37,7 +38,8 @@ def check_collisions(renderables):
         collision.kill()
 
     # Check if the player was hit by enemy fire
-    collision = pygame.sprite.spritecollideany(player_plane, enemy_bullets, pygame.sprite.collide_mask)
+    collision = pygame.sprite.spritecollideany(player_plane, enemy_bullets,
+                                               pygame.sprite.collide_mask)
     if collision:
         if player_plane.take_damage(10):
             # Draw explosion
@@ -52,8 +54,9 @@ def check_collisions(renderables):
         collision.kill()
 
     # Check if enemy was hit by player's fire
-    for idx, enemy_plane in enumerate(enemy_planes):
-        collision = pygame.sprite.spritecollideany(enemy_plane, player_bullets, pygame.sprite.collide_mask)
+    for enemy_plane in enemy_planes:
+        collision = pygame.sprite.spritecollideany(enemy_plane, player_bullets,
+                                                   pygame.sprite.collide_mask)
         if collision:
             # Remove enemy plane
             if enemy_plane.take_damage(10):

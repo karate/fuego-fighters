@@ -5,9 +5,11 @@ from .bullet import Bullet
 
 class Plane(Sprite):
     # Constructor. Pass in three images of the plane
-    def __init__(self, spritesheet_filename, width, height, rows, columns, speed_h, speed_v, cooldown, hp):
+    def __init__(self, spritesheet_filename, width, height, rows, columns,
+                 speed_h, speed_v, cooldown, hp):
         # Call the parent class (Sprite) constructor
-        Sprite.__init__(self, spritesheet_filename, width, height, rows, columns)
+        Sprite.__init__(self, spritesheet_filename, width, height, rows,
+                        columns)
 
         # Spritesheet must contain 3 sprites, with the following order
         if len(self.images) == 3:
@@ -32,7 +34,8 @@ class Plane(Sprite):
         self.image = self.image_top
 
         # Fetch the rectangle object that has the dimensions of the image
-        # Update the position of this object by setting the values of rect.x and rect.y
+        # Update the position of this object by setting the values of
+        # rect.x and rect.y
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
 
