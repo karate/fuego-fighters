@@ -7,15 +7,8 @@ class Explosion(Sprite):
     def __init__(self, spritesheet_filename, width, height, rows,
                  columns, delay):
         # Call the parent class (Sprite) constructor
-        pygame.sprite.Sprite.__init__(self)
+        Sprite.__init__(self, spritesheet_filename, width, height, rows, columns)
 
-        # Load sprite sheet
-        sprite_sheet = pygame.image.load(
-            'resources/' + spritesheet_filename
-        ).convert_alpha()
-
-        self.width = width
-        self.height = height
         self.image_index = 0
         self.timer = 0
         self.animation_delay = delay
