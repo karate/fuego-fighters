@@ -2,6 +2,7 @@ import pygame
 from src.Sprites import Explosion
 from constants import Layer
 
+
 def check_collisions(renderables):
     delete_out_of_bounds_bullets(renderables)
 

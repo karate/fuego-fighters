@@ -1,5 +1,7 @@
+"""
+Main game file
+"""
 import pygame
-from ArcadeFont import ArcadeFont
 from constants import Constants
 from constants import Layer
 from src.Collisions import check_collisions
@@ -10,7 +12,10 @@ from src.map import Map
 
 
 def main():
-    """ Creates the main window and calls the main loop function """
+    """Creates the main window and calls the main loop function
+
+    :return:
+    """
     # Used to manage how fast the screen updates
     clock = pygame.time.Clock()
 
@@ -27,10 +32,7 @@ def main():
     player_plane = create_player_plane(renderables)
     # update_map(renderables)
 
-    font = ArcadeFont(15)
-    text = font.get_text("Press SPACE to fire. Press 'q' to quit", (0, 0, 124))
-
-    while main_loop(clock, player_plane, renderables, screen, text):
+    while main_loop(clock, player_plane, renderables, screen):
         # Reset renderables in order to be able to loop again
         renderables = pygame.sprite.LayeredUpdates()
         player_plane = create_player_plane(renderables)
@@ -54,14 +56,32 @@ def create_player_plane(renderables):
     return player_plane
 
 
-def main_loop(clock, player_plane, renderables, screen, text):
-    """ All game logic goes here """
+def draw_text(screen, render):
+    if render:
+        for word in render.split(','):
+            screen.blit(
+                Constants.get_available_text()[word]['text'],
+                Constants.get_available_text()[word]['pos']
+            )
+
+
+def main_loop(clock, player_plane, renderables, screen):
+    """All game logic goes here
+
+    :param clock:
+    :param player_plane:
+    :param renderables:
+    :param screen:
+    :param text:
+    :return: True if user wants to restart, False otherwise
+    """
     # Loop until the user clicks the close button.
     done = False
     restart = False
 
     last_update = 0
     _map = Map(renderables)
+    text_to_render = "instructions"
 
     # -------- Main Program Loop -----------
     while not done:
@@ -115,6 +135,8 @@ def main_loop(clock, player_plane, renderables, screen, text):
                     bullet = player_plane.fire()
                     if isinstance(bullet, Bullet):
                         renderables.add(bullet, layer=Layer.PLAYER_BULLETS)
+            else:
+                text_to_render = "game_over,restart"
 
         # Update all sprites in the main sprite group
         renderables.update()
@@ -124,9 +146,7 @@ def main_loop(clock, player_plane, renderables, screen, text):
 
         # Draw all sprites
         renderables.draw(screen)
-        screen.blit(
-            text, text.get_rect(center=(Constants.X_CENTER, 50))
-        )
+        draw_text(screen, render=text_to_render)
 
         # Refresh Screen
         pygame.display.flip()
@@ -134,6 +154,7 @@ def main_loop(clock, player_plane, renderables, screen, text):
         now = pygame.time.get_ticks()
         if now - last_update >= Constants.UPDATE_INTERVAL and not _map.active:
             last_update = now
+            text_to_render = None
             try:
                 _map.start()
                 horde = _map.next_horde()

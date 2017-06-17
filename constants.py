@@ -1,3 +1,6 @@
+from ArcadeFont import ArcadeFont
+
+
 class Constants:
     # Size of the window
     WINDOW_SIZE = (400, 800)
@@ -35,6 +38,27 @@ class Constants:
                [0, 0, 1, 0],
                [0, 0, 0, 1]]
     }
+
+    def get_available_text():
+        inst = ArcadeFont(15).get_text("Press SPACE to fire. Press 'q' to quit",
+                                       (0, 0, 124))
+        game_over = ArcadeFont(35).get_text("GAME OVER", (0, 0, 124))
+        restart = ArcadeFont(12).get_text(
+            "Press 'r' to restart. Press 'q' to quit", (0, 0, 124))
+        available_text = {
+            "instructions": {
+                'text': inst,
+                'pos': inst.get_rect(center=(Constants.X_CENTER, 50))},
+            "game_over": {
+                'text': game_over,
+                'pos': game_over.get_rect(center=(Constants.X_CENTER, 300))},
+            "restart": {
+                'text': restart,
+                'pos': restart.get_rect(center=(Constants.X_CENTER, 340))
+
+            }
+        }
+        return available_text
 
 
 class Layer:
