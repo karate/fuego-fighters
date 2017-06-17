@@ -1,11 +1,17 @@
+import pygame
+
 from ArcadeFont import ArcadeFont
 from constants import Constants
 from constants import Layer
-from src.Collisions import *
-from src.Sprites import *
+
+from src.Collisions import check_collisions
+from src.Sprites import Plane
+from src.Sprites import Horde
+from src.Sprites import Bullet
 
 
 def main():
+    """ Creates the main window and calls the main loop function """
     # Used to manage how fast the screen updates
     clock = pygame.time.Clock()
 
@@ -34,7 +40,7 @@ def main():
 
 
 def create_player_plane(renderables):
-    """It creates the player plane
+    """ It creates the player plane
 
     :return: player_plane
     """
@@ -51,6 +57,7 @@ def create_player_plane(renderables):
 
 
 def main_loop(clock, player_plane, renderables, screen, text):
+    """ All game logic goes here """
     # Loop until the user clicks the close button.
     done = False
     restart = False
@@ -108,7 +115,7 @@ def main_loop(clock, player_plane, renderables, screen, text):
                 if pressed[pygame.K_SPACE]:
                     # Create bullet
                     bullet = player_plane.fire()
-                    if type(bullet) is Bullet:
+                    if isinstance(bullet, Bullet):
                         renderables.add(bullet, layer=Layer.PLAYER_BULLETS)
 
         # Update all sprites in the main sprite group
@@ -146,4 +153,3 @@ def main_loop(clock, player_plane, renderables, screen, text):
 pygame.init()
 
 main()
-

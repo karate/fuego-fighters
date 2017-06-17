@@ -1,4 +1,3 @@
-import pygame
 from .bullet import Bullet
 from .enemy import Enemy
 

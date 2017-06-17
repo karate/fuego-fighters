@@ -42,16 +42,16 @@ class Plane(Sprite):
     def fire(self):
         # Calculate the last time the gun fired
         now = pygame.time.get_ticks()
-        cd = self.cooldown
+        current_cooldown = self.cooldown
 
         # If meanwhile the player has released the fire button,
         # reduce the cooldown to half.
         if self.keyup:
-            cd = cd / 2
+            current_cooldown /= 2
 
         # If the cooldown has expired, fire the canons!
         # (aka: create a Bullet object)
-        if now - self.last_fire >= cd:
+        if now - self.last_fire >= current_cooldown:
             self.last_fire = now
             self.keyup = False
             bullet = Bullet('player_bullet.png', 8, 13, 1, 1, 6, -1)

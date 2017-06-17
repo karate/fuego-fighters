@@ -1,5 +1,5 @@
-import pygame
 from os.path import sep
+import pygame
 from .sprite import Sprite
 
 
