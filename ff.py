@@ -1,13 +1,12 @@
 import pygame
-
 from ArcadeFont import ArcadeFont
 from constants import Constants
 from constants import Layer
-
 from src.Collisions import check_collisions
-from src.Sprites import Plane
-from src.Sprites import Horde
 from src.Sprites import Bullet
+from src.Sprites import Plane
+from src.exceptions import *
+from src.map import Map
 
 
 def main():
@@ -35,7 +34,6 @@ def main():
         # Reset renderables in order to be able to loop again
         renderables = pygame.sprite.LayeredUpdates()
         player_plane = create_player_plane(renderables)
-        # update_map(renderables)
         pygame.time.delay(500)
 
 
@@ -63,7 +61,7 @@ def main_loop(clock, player_plane, renderables, screen, text):
     restart = False
 
     last_update = 0
-    horde = Horde(renderables, 'v')
+    _map = Map(renderables)
 
     # -------- Main Program Loop -----------
     while not done:
@@ -134,12 +132,20 @@ def main_loop(clock, player_plane, renderables, screen, text):
         pygame.display.flip()
 
         now = pygame.time.get_ticks()
-        if now - last_update >= Constants.UPDATE_INTERVAL and not horde.active:
+        if now - last_update >= Constants.UPDATE_INTERVAL and not _map.active:
             last_update = now
-            horde.activate()
-        if now - last_update >= horde.interval and horde.active:
+            try:
+                _map.start()
+                horde = _map.next_horde()
+                horde.activate()
+            except LevelFinished:
+                _map.pause()
+        if _map.active and now - last_update >= horde.interval:
             last_update = now
-            horde.render_line()
+            try:
+                horde.render_line()
+            except FormationEnd:
+                _map.pause()
 
         # Number of frames per second
         # 30fps generate flickering. Going with 60

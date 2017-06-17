@@ -4,6 +4,7 @@ Class responsible for generation of horde of airplanes in formations.
 import pygame
 from constants import Constants
 from constants import Layer
+from src.exceptions import FormationEnd
 from .enemy import Enemy
 
 
@@ -11,7 +12,7 @@ class Horde:
     """
     Horde of airplanes
     """
-    def __init__(self, renderables, formation, interval=300):
+    def __init__(self, renderables, formation, interval=450):
         """It creates hordes of enemies
 
         :param renderables:
@@ -45,7 +46,7 @@ class Horde:
         self.current_line = self.rows - 1
 
     def render_line(self):
-        """Render each line of the choosen formation
+        """Render each line of the chosen formation
 
         :return:
         """
@@ -55,16 +56,18 @@ class Horde:
                 if plane:
                     # Enemy(width, height, rows, columns, speed_h, speed_v,
                     #       cooldown, hit_points, x=0, y=0)
-                    enemy = Enemy(31, 42, 1, 3, 0, 3, 10, 20)
+                    enemy = Enemy(31, 42, 1, 3, 0, 2, 10, 20)
                     enemy.rect.x = self.column_size * pos + \
                         (enemy.rect.width / 2)
                     enemy.rect.y = 0
+                    pygame.time.set_timer(pygame.USEREVENT + self.current_line,
+                                          1000)
                     self.renderables.add(enemy, layer=Layer.ENEMIES)
             self.current_line -= 1
             if self.current_line < 0:
                 raise IndexError
         except IndexError:
-            self.deactivate()
+            raise FormationEnd
 
     # Create boss
     # Enemy(spritesheet_filename, width, height, rows,
