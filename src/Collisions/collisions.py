@@ -1,29 +1,22 @@
 import pygame
 from src.Sprites import Explosion
-
-# DEFINES
-LAYER_PLAYER = 1
-LAYER_PLAYER_BULLETS = 2
-LAYER_ENEMIES = 3
-LAYER_ENEMY_BULLETS = 4
-LAYER_EXPLOSIONS = 9
-
+from constants import Layer
 
 def check_collisions(renderables):
     delete_out_of_bounds_bullets(renderables)
 
-    player_layer_sprites = renderables.get_sprites_from_layer(LAYER_PLAYER)
+    player_layer_sprites = renderables.get_sprites_from_layer(Layer.PLAYER)
     if not player_layer_sprites:
         return
 
     # Sprite of the player's plane
     player_plane = player_layer_sprites[0]
     # A list with all the player's bullets
-    player_bullets = renderables.get_sprites_from_layer(LAYER_PLAYER_BULLETS)
+    player_bullets = renderables.get_sprites_from_layer(Layer.PLAYER_BULLETS)
     # A list with all the enemy planes
-    enemy_planes = renderables.get_sprites_from_layer(LAYER_ENEMIES)
+    enemy_planes = renderables.get_sprites_from_layer(Layer.ENEMIES)
     # A list with all the enemy bullets
-    enemy_bullets = renderables.get_sprites_from_layer(LAYER_ENEMY_BULLETS)
+    enemy_bullets = renderables.get_sprites_from_layer(Layer.ENEMY_BULLETS)
 
     # Check if the player has hit an enemy plane
     collision = pygame.sprite.spritecollideany(player_plane, enemy_planes,
@@ -87,13 +80,13 @@ def get_hit(position):
 
 def delete_out_of_bounds_bullets(renderables):
     # Player bullets
-    player_bullets = renderables.get_sprites_from_layer(LAYER_PLAYER_BULLETS)
+    player_bullets = renderables.get_sprites_from_layer(Layer.PLAYER_BULLETS)
     for bullet in player_bullets:
         if bullet.rect.y < 0:
             bullet.kill()
 
     # Enemy bullets
-    enemy_bullets = renderables.get_sprites_from_layer(LAYER_ENEMY_BULLETS)
+    enemy_bullets = renderables.get_sprites_from_layer(Layer.ENEMY_BULLETS)
     for bullet in enemy_bullets:
         if bullet.rect.y > pygame.display.get_surface().get_height():
             bullet.kill()
