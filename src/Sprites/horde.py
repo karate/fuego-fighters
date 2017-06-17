@@ -1,6 +1,7 @@
 """
 Class responsible for generation of horde of airplanes in formations.
 """
+import random
 import pygame
 from constants import Constants
 from constants import Layer
@@ -61,7 +62,7 @@ class Horde:
                         (enemy.rect.width / 2)
                     enemy.rect.y = 0
                     pygame.time.set_timer(pygame.USEREVENT + self.current_line,
-                                          1000)
+                                          random.randint(1000, 3000))
                     self.renderables.add(enemy, layer=Layer.ENEMIES)
             self.current_line -= 1
             if self.current_line < 0:
