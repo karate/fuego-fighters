@@ -1,18 +1,14 @@
-from os.path import sep
-import pygame
 from .sprite import Sprite
-from constants import SpriteInfo
 
 
 class Bullet(Sprite):
     # Constructor. Pass in three images of the plane
-    def __init__(self, type, speed, direction):
+    def __init__(self, bullet_type, speed, direction):
         # Call the parent class (Sprite) constructor
-        _sprite_info = SpriteInfo.TYPES[type]
-        self._sprite = Sprite.__init__(self, _sprite_info)
+        self._sprite = Sprite.__init__(self, bullet_type)
 
-        self.width = _sprite_info['width']
-        self.height = _sprite_info['height']
+        self.width = bullet_type['width']
+        self.height = bullet_type['height']
         self.speed = speed
         self.direction = direction
 

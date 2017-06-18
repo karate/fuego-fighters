@@ -2,15 +2,14 @@ import pygame
 from .sprite import Sprite
 from .bullet import Bullet
 from constants import Constants
-from constants import SpriteInfo
 
 
 class Plane(Sprite):
     # Constructor. Pass in three images of the plane
-    def __init__(self, type, speed_h, speed_v, cooldown, hp,
+    def __init__(self, plane_type, speed_h, speed_v, cooldown, hp,
                  respect_borders=False):
         # Call the parent class (Sprite) constructor
-        Sprite.__init__(self, SpriteInfo.TYPES[type])
+        Sprite.__init__(self, plane_type)
 
         # Spritesheet must contain 3 sprites, with the following order
         if len(self.images) == 3:

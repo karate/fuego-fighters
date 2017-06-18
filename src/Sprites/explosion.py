@@ -1,14 +1,11 @@
-import pygame
 from .sprite import Sprite
-from constants import SpriteInfo
 
 
 class Explosion(Sprite):
     # Constructor. Pass in three images of the plane
-    def __init__(self, type, delay):
+    def __init__(self, explosion_type, delay):
         # Call the parent class (Sprite) constructor
-        _sprite_info = SpriteInfo.TYPES[type]
-        Sprite.__init__(self, _sprite_info)
+        Sprite.__init__(self, explosion_type)
 
         self.image_index = 0
         self.timer = 0
