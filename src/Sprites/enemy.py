@@ -4,12 +4,10 @@ from .plane import Plane
 
 
 class Enemy(Plane):
-    def __init__(self, width, height, rows, columns, speed_h, speed_v,
-                 cooldown, hit_points, x=0, y=0,
-                 spritesheet_filename='enemy.png'):
+    def __init__(self, speed_h, speed_v, cooldown, hit_points, x=0, y=0):
         # Call the parent class (Plane) constructor
-        Plane.__init__(self, spritesheet_filename, width, height,
-                       rows, columns, speed_h, speed_v, cooldown, hit_points)
+        Plane.__init__(self, Constants.SPRITE_ENEMY_PLANE, speed_h, speed_v,
+                       cooldown, hit_points)
         self.rect.x = x
         self.rect.y = y
         # Choose the direction randomly 1 for right, -1 for left
@@ -42,7 +40,7 @@ class Enemy(Plane):
 
         :return:
         """
-        bullet = Bullet('enemy_bullet.png', 8, 13, 1, 1, 6, 1)
+        bullet = Bullet(Constants.SPRITE_ENEMY_BULLET, 6, 1)
         bullet.rect.x = self.rect.x + (self.rect.width / 2)
         bullet.rect.y = self.rect.y - 10
         return bullet

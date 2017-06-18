@@ -45,9 +45,8 @@ def create_player_plane(renderables):
     :return: player_plane
     """
     # Create player's plane
-    # Plane(spritesheet_filename, width, height, speed_h, speed_v,
-    #       cooldown, hot_points)
-    player_plane = Plane('player.png', 64, 64, 1, 3, 5, 4, 100, 30,
+    # Plane(sprite_type, speed_h, speed_v, cooldown, hot_points)
+    player_plane = Plane(Constants.SPRITE_PLAYER_PLANE, 5, 4, 100, 30,
                          respect_borders=True)
     player_plane.rect.x = (pygame.display.get_surface().get_width() -
                            player_plane.rect.right) / 2

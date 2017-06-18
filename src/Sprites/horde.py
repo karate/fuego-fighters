@@ -57,7 +57,7 @@ class Horde:
                 if plane:
                     # Enemy(width, height, rows, columns, speed_h, speed_v,
                     #       cooldown, hit_points, x=0, y=0)
-                    enemy = Enemy(31, 42, 1, 3, 0, 2, 10, 20)
+                    enemy = Enemy(0, 2, 10, 20)
                     enemy.rect.x = self.column_size * pos + \
                         (enemy.rect.width / 2)
                     enemy.rect.y = 0

@@ -2,22 +2,22 @@ import pygame
 
 
 class Sprite(pygame.sprite.Sprite):
-    def __init__(self, spritesheet_filename, width, height, rows, columns):
+    def __init__(self, type):
         # Call the parent class (Sprite) constructor
         pygame.sprite.Sprite.__init__(self)
 
         # Load sprites for the plane
         sprite_sheet = pygame.image.load(
-            'resources/' + spritesheet_filename
+            'resources/' + type['spritesheet_filename']
         ).convert_alpha()
 
-        self.width = width
-        self.height = height
+        self.width = type['width']
+        self.height = type['height']
 
         # extract images
         self.images = []
-        for i in range(rows):
-            for j in range(columns):
+        for i in range(type['rows']):
+            for j in range(type['columns']):
                 # Rect(left, top, width, height)
                 rect = pygame.Rect((j * self.width, i * self.height,
                                     self.width, self.height))

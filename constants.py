@@ -48,6 +48,13 @@ class Constants:
     ENEMY_TOUCH_OUTSIDE = 1
     ENEMY_TOUCH_INSIDE = 2
 
+    SPRITE_ENEMY_BULLET = 0
+    SPRITE_PLAYER_BULLET = 1
+    SPRITE_ENEMY_PLANE = 2
+    SPRITE_PLAYER_PLANE = 3
+    SPRITE_EXPLOSION = 4
+    SPRITE_DAMAGE = 5
+
     @staticmethod
     def get_available_text():
         inst = ArcadeFont(15).get_text("Press SPACE to fire. Press 'q' to quit",
@@ -77,3 +84,50 @@ class Layer:
     ENEMIES = 3
     ENEMY_BULLETS = 4
     EXPLOSIONS = 9
+
+
+class SpriteInfo:
+    TYPES = {
+        Constants.SPRITE_ENEMY_BULLET: {
+            'spritesheet_filename': 'enemy_bullet.png',
+            'width': 8,
+            'height': 13,
+            'rows': 1,
+            'columns': 1,
+        },
+        Constants.SPRITE_PLAYER_BULLET: {
+            'spritesheet_filename': 'player_bullet.png',
+            'width': 8,
+            'height': 13,
+            'rows': 1,
+            'columns': 1,
+        },
+        Constants.SPRITE_ENEMY_PLANE: {
+            'spritesheet_filename': 'enemy.png',
+            'width': 31,
+            'height': 42,
+            'rows': 1,
+            'columns': 3,
+        },
+        Constants.SPRITE_PLAYER_PLANE: {
+            'spritesheet_filename': 'player.png',
+            'width': 64,
+            'height': 64,
+            'rows': 1,
+            'columns': 3
+        },
+        Constants.SPRITE_EXPLOSION: {
+            'spritesheet_filename': 'explosion.png',
+            'width': 64,
+            'height': 64,
+            'rows': 3,
+            'columns': 8
+        },
+        Constants.SPRITE_DAMAGE: {
+            'spritesheet_filename': 'player_damage.png',
+            'width': 20,
+            'height': 17,
+            'rows': 1,
+            'columns': 4
+        },
+    }

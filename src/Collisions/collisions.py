@@ -1,6 +1,6 @@
 import pygame
 from src.Sprites import Explosion
-from constants import Layer
+from constants import Layer, Constants
 
 
 def check_collisions(renderables):
@@ -24,7 +24,7 @@ def check_collisions(renderables):
                                                pygame.sprite.collide_mask)
     if collision:
         # Draw explosion
-        explosion = get_explosion(collision.rect)
+        explosion = get_explosion(Constants.SPRITE_EXPLOSION, collision.rect)
         renderables.add(explosion)
         # Remove player's plane
         player_plane.kill()
@@ -37,11 +37,12 @@ def check_collisions(renderables):
     if collision:
         if player_plane.take_damage(10):
             # Draw explosion
-            explosion = get_explosion(collision.rect)
+            explosion = get_explosion(Constants.SPRITE_EXPLOSION,
+                                      collision.rect)
             renderables.add(explosion)
         else:
             # Draw hit
-            hit = get_hit(collision.rect)
+            hit = get_explosion(Constants.SPRITE_DAMAGE, collision.rect)
             renderables.add(hit)
 
         # Remove enemy bullet
@@ -55,11 +56,12 @@ def check_collisions(renderables):
             # Remove enemy plane
             if enemy_plane.take_damage(10):
                 # Draw explosion
-                explosion = get_explosion(collision.rect)
+                explosion = get_explosion(Constants.SPRITE_EXPLOSION,
+                                          collision.rect)
                 renderables.add(explosion)
             else:
                 # Draw hit
-                hit = get_hit(collision.rect)
+                hit = get_explosion(Constants.SPRITE_DAMAGE, collision.rect)
                 renderables.add(hit)
 
             # Remove player's bullet
@@ -67,14 +69,9 @@ def check_collisions(renderables):
 
 
 # Returns an explosion object, at the specified position (rect)
-def get_explosion(position):
-    explosion = Explosion('explosion.png', 64, 64, 3, 8, 4)
-    explosion.rect = pygame.Rect(position)
-    return explosion
-
-
-def get_hit(position):
-    explosion = Explosion('player_damage.png', 20, 17, 1, 4, 5)
+def get_explosion(explosion_type, position):
+    delay = 4 if explosion_type == Constants.SPRITE_EXPLOSION else 5
+    explosion = Explosion(explosion_type, delay)
     explosion.rect = pygame.Rect(position)
     return explosion
 

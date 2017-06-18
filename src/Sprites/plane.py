@@ -2,15 +2,15 @@ import pygame
 from .sprite import Sprite
 from .bullet import Bullet
 from constants import Constants
+from constants import SpriteInfo
 
 
 class Plane(Sprite):
     # Constructor. Pass in three images of the plane
-    def __init__(self, spritesheet_filename, width, height, rows, columns,
-                 speed_h, speed_v, cooldown, hp, respect_borders=False):
+    def __init__(self, type, speed_h, speed_v, cooldown, hp,
+                 respect_borders=False):
         # Call the parent class (Sprite) constructor
-        Sprite.__init__(self, spritesheet_filename, width, height, rows,
-                        columns)
+        Sprite.__init__(self, SpriteInfo.TYPES[type])
 
         # Spritesheet must contain 3 sprites, with the following order
         if len(self.images) == 3:
@@ -56,7 +56,7 @@ class Plane(Sprite):
         if now - self.last_fire >= current_cooldown:
             self.last_fire = now
             self.keyup = False
-            bullet = Bullet('player_bullet.png', 8, 13, 1, 1, 6, -1)
+            bullet = Bullet(Constants.SPRITE_PLAYER_BULLET, 6, -1)
             bullet.rect.x = self.rect.x + (self.rect.width / 2)
             bullet.rect.y = self.rect.y - 10
             return bullet
