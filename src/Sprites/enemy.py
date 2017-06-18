@@ -1,5 +1,6 @@
-from .plane import Plane
+from constants import Constants
 from .bullet import Bullet
+from .plane import Plane
 
 
 class Enemy(Plane):
@@ -12,20 +13,35 @@ class Enemy(Plane):
         self.rect.x = x
         self.rect.y = y
         # Choose the direction randomly 1 for right, -1 for left
-        self.direction = -1  # [-1, 1][random.randint(0, 1)]
-        self.TOWARDS = {-1: self.move_left, 1: self.move_right}
+        # self.direction = random.choice(
+        #     [Constants.DIRECTION_L, Constants.DIRECTION_R]
+        # )
+        self.direction = Constants.DIR_L
+        self.towards = {Constants.DIR_L: self.move_left,
+                        Constants.DIR_R: self.move_right}
 
     def update(self):
+        """Update plane movement
+
+        :return:
+        """
         # If hit bounds, change direction
-        if not self.TOWARDS[self.direction]():
-            self.change_direction()
-        if not self.move_down():
+        if self.towards[self.direction]() == Constants.ENEMY_TOUCH_INSIDE or \
+                not self.move_down():
             self.disappear()
 
     def change_direction(self):
+        """Change to opposite direction
+
+        :return:
+        """
         self.direction *= -1
 
     def fire(self):
+        """Fire the bullet!
+
+        :return:
+        """
         bullet = Bullet('enemy_bullet.png', 8, 13, 1, 1, 6, 1)
         bullet.rect.x = self.rect.x + (self.rect.width / 2)
         bullet.rect.y = self.rect.y - 10

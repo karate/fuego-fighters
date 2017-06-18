@@ -1,12 +1,13 @@
 import pygame
 from .sprite import Sprite
 from .bullet import Bullet
+from constants import Constants
 
 
 class Plane(Sprite):
     # Constructor. Pass in three images of the plane
     def __init__(self, spritesheet_filename, width, height, rows, columns,
-                 speed_h, speed_v, cooldown, hp):
+                 speed_h, speed_v, cooldown, hp, respect_borders=False):
         # Call the parent class (Sprite) constructor
         Sprite.__init__(self, spritesheet_filename, width, height, rows,
                         columns)
@@ -38,6 +39,7 @@ class Plane(Sprite):
         # rect.x and rect.y
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
+        self.respect_borders = respect_borders
 
     def fire(self):
         # Calculate the last time the gun fired
@@ -87,11 +89,17 @@ class Plane(Sprite):
         # Move left
         self.rect.x -= self.speed_h
         # Don't let it go off the borders
-        if self.rect.x < 0:
-            self.rect.x = 0
-            # Return false if the plane has reached the border
-            return False
-        return True
+        if self.rect.x > 0:
+            return Constants.ENEMY_NO_TOUCH
+        else:
+            # if respect_borders is set, don't go outside border (x = 0)
+            if self.respect_borders:
+                self.rect.x = 0
+                return Constants.ENEMY_TOUCH_OUTSIDE
+            if self.rect.x > - self.rect.width:
+                return Constants.ENEMY_TOUCH_OUTSIDE
+            else:
+                return Constants.ENEMY_TOUCH_INSIDE
 
     def move_right(self):
         # Change sprite
@@ -102,11 +110,16 @@ class Plane(Sprite):
         # Don't let it go off the borders
         screen_width = pygame.display.get_surface().get_width()
         sprite_width = self.image.get_width()
-        if self.rect.x > screen_width - sprite_width:
-            self.rect.x = screen_width - sprite_width
-            # Return false if the plane has reached the border
-            return False
-        return True
+        if self.rect.x < screen_width - sprite_width:
+            return Constants.ENEMY_NO_TOUCH
+        else:
+            if self.respect_borders:
+                self.rect.x = screen_width - sprite_width
+                return Constants.ENEMY_TOUCH_OUTSIDE
+            if self.rect.x < screen_width:
+                return Constants.ENEMY_TOUCH_OUTSIDE
+            else:
+                return Constants.ENEMY_TOUCH_INSIDE
 
     def move_up(self):
         # Move up

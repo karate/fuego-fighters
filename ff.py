@@ -7,7 +7,7 @@ from constants import Layer
 from src.Collisions import check_collisions
 from src.Sprites import Bullet
 from src.Sprites import Plane
-from src.exceptions import *
+from src.exceptions import LevelFinished, FormationEnd
 from src.map import Map
 
 
@@ -47,7 +47,8 @@ def create_player_plane(renderables):
     # Create player's plane
     # Plane(spritesheet_filename, width, height, speed_h, speed_v,
     #       cooldown, hot_points)
-    player_plane = Plane('player.png', 64, 64, 1, 3, 5, 4, 100, 30)
+    player_plane = Plane('player.png', 64, 64, 1, 3, 5, 4, 100, 30,
+                         respect_borders=True)
     player_plane.rect.x = (pygame.display.get_surface().get_width() -
                            player_plane.rect.right) / 2
     player_plane.rect.y = pygame.display.get_surface().get_height() - 100
@@ -57,6 +58,12 @@ def create_player_plane(renderables):
 
 
 def draw_text(screen, render):
+    """Draw text on screen.
+
+    :param screen: game screen
+    :param render: comma separated string
+    :return:
+    """
     if render:
         for word in render.split(','):
             screen.blit(

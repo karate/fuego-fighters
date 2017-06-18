@@ -38,7 +38,17 @@ class Constants:
                [0, 0, 1, 0],
                [0, 0, 0, 1]]
     }
+    DIR_L = -1
+    DIR_R = 1
 
+    # 2-point touch wall enumeration
+    # Outside is for first side touch
+    # Inside is for the second side touch
+    ENEMY_NO_TOUCH = 0
+    ENEMY_TOUCH_OUTSIDE = 1
+    ENEMY_TOUCH_INSIDE = 2
+
+    @staticmethod
     def get_available_text():
         inst = ArcadeFont(15).get_text("Press SPACE to fire. Press 'q' to quit",
                                        (0, 0, 124))

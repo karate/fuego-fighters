@@ -1,6 +1,8 @@
 """
 Map module that creates hordes of airplanes
 """
+import random
+from constants import Constants
 from src.exceptions import LevelFinished
 from src.Sprites.horde import Horde
 
@@ -15,13 +17,14 @@ class Map:
         :param renderables:
         """
         self.active = False
-        self.hordes = iter([Horde(renderables, '/'),
-                            Horde(renderables, '/'),
-                            Horde(renderables, '\\'),
-                            Horde(renderables, 'z'),
-                            Horde(renderables, 'v'),
-                            Horde(renderables, 'dv'),
-                            Horde(renderables, 'v')])
+        self.horde_list = []
+        for _ in range(20):
+            self.horde_list.append(
+                Horde(renderables, random.choice(
+                    list(Constants.FORMATIONS.keys()))
+                     )
+            )
+        self.hordes = iter(self.horde_list)
 
     def start(self):
         """Start the map
