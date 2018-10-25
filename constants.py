@@ -90,4 +90,5 @@ class Layer:
     PLAYER_BULLETS = 2
     ENEMIES = 3
     ENEMY_BULLETS = 4
+    POWER_UPS = 5
     EXPLOSIONS = 9
