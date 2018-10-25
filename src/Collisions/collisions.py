@@ -18,6 +18,8 @@ def check_collisions(renderables):
     enemy_planes = renderables.get_sprites_from_layer(Layer.ENEMIES)
     # A list with all the enemy bullets
     enemy_bullets = renderables.get_sprites_from_layer(Layer.ENEMY_BULLETS)
+    # A list with all the power-ups
+    power_ups = renderables.get_sprites_from_layer(Layer.POWER_UPS)
 
     # Check if the player has hit an enemy plane
     collision = pygame.sprite.spritecollideany(player_plane, enemy_planes,
@@ -66,6 +68,15 @@ def check_collisions(renderables):
 
             # Remove player's bullet
             collision.kill()
+
+    # Check if player has picked up power-up
+    collision = pygame.sprite.spritecollideany(player_plane, power_ups,
+                                               pygame.sprite.collide_mask)
+    if collision:
+        # TODO - implement power-up effect, depending on kind
+    
+        # Remove power-up from screen
+        collision.kill()
 
 
 # Returns an explosion object, at the specified position (rect)
