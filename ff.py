@@ -120,7 +120,7 @@ def main_loop(clock, player_plane, renderables, screen):
         # 'q' quits the application
         if pressed[pygame.K_q]:
             done = True
-        if pressed[pygame.K_r]:
+        if pressed[pygame.K_r] and not renderables.get_sprites_from_layer(Layer.PLAYER):
             restart = True
             done = True
         # Arrows move the player's plane
