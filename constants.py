@@ -9,6 +9,14 @@ class Constants:
     # Basic colors
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
+    GREEN = (0, 255, 0)
+    RED = (255, 0, 0)
+
+    # UI Settings
+    HP = GREEN
+    DAMAGE = RED
+    INERT = BLACK
+    HP_BAR_HEIGHT = 10
 
     UPDATE_INTERVAL = 5000
 
@@ -91,4 +99,5 @@ class Layer:
     ENEMIES = 3
     ENEMY_BULLETS = 4
     POWER_UPS = 5
+    UI = 8
     EXPLOSIONS = 9

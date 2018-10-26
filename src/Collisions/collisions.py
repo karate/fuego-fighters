@@ -28,6 +28,8 @@ def check_collisions(renderables):
         # Draw explosion
         explosion = get_explosion(Constants.SPRITE_EXPLOSION, collision.rect)
         renderables.add(explosion)
+        # Reduce player HP to 0 so that the lifebar knows to finish animating and dying.
+        player_plane.hit_points = 0
         # Remove player's plane
         player_plane.kill()
         # Remove enemy plane

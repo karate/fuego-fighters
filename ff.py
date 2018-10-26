@@ -7,6 +7,7 @@ from constants import Layer
 from src.Collisions import check_collisions
 from src.Sprites import Bullet
 from src.Sprites import Plane
+from src.Sprites import HealthBar
 from src.exceptions import LevelFinished, FormationEnd
 from src.map import Map
 
@@ -53,6 +54,9 @@ def create_player_plane(renderables):
     player_plane.rect.y = pygame.display.get_surface().get_height() - 100
     # Add player's plane to sprite list
     renderables.add(player_plane, layer=Layer.PLAYER)
+    # Add health bar to player.
+    hb = HealthBar(player_plane)
+    renderables.add(hb, layer=Layer.UI)
     return player_plane
 
 
