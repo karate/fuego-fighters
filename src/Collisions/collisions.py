@@ -3,7 +3,7 @@ from src.Sprites import Explosion
 from constants import Layer, Constants
 
 
-def check_collisions(renderables):
+def check_collisions(renderables, mixer):
     delete_out_of_bounds_bullets(renderables)
 
     player_layer_sprites = renderables.get_sprites_from_layer(Layer.PLAYER)
@@ -63,6 +63,7 @@ def check_collisions(renderables):
                 explosion = get_explosion(Constants.SPRITE_EXPLOSION,
                                           collision.rect)
                 renderables.add(explosion)
+                mixer.play_sound('ship_explodes')
             else:
                 # Draw hit
                 hit = get_explosion(Constants.SPRITE_DAMAGE, collision.rect)

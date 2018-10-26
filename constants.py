@@ -18,10 +18,24 @@ class Constants:
     INERT = BLACK
     HP_BAR_HEIGHT = 10
 
-    UPDATE_INTERVAL = 5000
+    UPDATE_INTERVAL = 4500
 
     DIR_L = -1
     DIR_R = 1
+
+    # SFX
+    MUSIC_BACKGROUND = 'resources/background.wav'
+    MUSIC_BACKGROUND_INTRO = 'resources/background_intro.wav'
+
+    SOUNDS = {
+        'player_bullet': 'resources/player_bullet.wav',
+        'enemy_bullet': 'resources/enemy_bullet.wav',
+        'ship_explodes': [
+            'resources/explosion_0.wav',
+            'resources/explosion_1.wav',
+            'resources/explosion_2.wav',
+        ]
+    }
 
     # 2-point touch wall enumeration
     # Outside is for first side touch
