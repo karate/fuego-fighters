@@ -20,3 +20,5 @@ class Explosion(Sprite):
             self.image_index += 1
             if self.image_index < len(self.images):
                 self.image = self.images[self.image_index]
+            else:
+                self.kill()
