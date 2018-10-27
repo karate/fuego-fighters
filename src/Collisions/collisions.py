@@ -101,3 +101,8 @@ def delete_out_of_bounds_bullets(renderables):
     for bullet in enemy_bullets:
         if bullet.rect.y > pygame.display.get_surface().get_height():
             bullet.kill()
+
+    enemies = renderables.get_sprites_from_layer(Layer.ENEMIES)
+    for enemy in enemies:
+        if enemy.rect.y > pygame.display.get_surface().get_height():
+            enemy.kill()
