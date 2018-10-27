@@ -16,7 +16,7 @@ class Constants:
     HP = GREEN
     DAMAGE = RED
     INERT = BLACK
-    HP_BAR_HEIGHT = 10
+    HP_BAR_HEIGHT = 3
 
     UPDATE_INTERVAL = 5000
 
