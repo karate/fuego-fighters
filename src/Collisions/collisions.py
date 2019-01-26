@@ -28,6 +28,7 @@ def check_collisions(renderables, mixer):
         # Draw explosion
         explosion = get_explosion(Constants.SPRITE_EXPLOSION, collision.rect)
         renderables.add(explosion)
+        mixer.play_sound('ship_explodes')
         # Reduce player HP to 0 so that the lifebar knows to finish animating and dying.
         player_plane.hit_points = 0
         # Remove player's plane
