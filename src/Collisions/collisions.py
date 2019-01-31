@@ -3,7 +3,7 @@ from src.Sprites import Explosion
 from constants import Layer, Constants
 
 
-def check_collisions(renderables):
+def check_collisions(renderables, mixer):
     delete_out_of_bounds_bullets(renderables)
 
     player_layer_sprites = renderables.get_sprites_from_layer(Layer.PLAYER)
@@ -28,6 +28,7 @@ def check_collisions(renderables):
         # Draw explosion
         explosion = get_explosion(Constants.SPRITE_EXPLOSION, collision.rect)
         renderables.add(explosion)
+        mixer.play_sound('ship_explodes')
         # Reduce player HP to 0 so that the lifebar knows to finish animating and dying.
         player_plane.hit_points = 0
         # Remove player's plane
@@ -41,6 +42,7 @@ def check_collisions(renderables):
     if collision:
         if player_plane.take_damage(10):
             # Draw explosion
+            mixer.play_sound('ship_explodes')
             explosion = get_explosion(Constants.SPRITE_EXPLOSION,
                                       collision.rect)
             renderables.add(explosion)
@@ -62,6 +64,7 @@ def check_collisions(renderables):
                 # Draw explosion
                 explosion = get_explosion(Constants.SPRITE_EXPLOSION,
                                           collision.rect)
+                mixer.play_sound('ship_explodes')
                 renderables.add(explosion)
             else:
                 # Draw hit

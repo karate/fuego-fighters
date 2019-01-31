@@ -10,6 +10,7 @@ from src.Sprites import Plane
 from src.Sprites import HealthBar
 from src.exceptions import LevelFinished, FormationEnd
 from src.map import Map
+from src.mixer import Mixer
 
 
 def main():
@@ -33,7 +34,8 @@ def main():
     player_plane = create_player_plane(renderables)
     # update_map(renderables)
 
-    while main_loop(clock, player_plane, renderables, screen):
+    mixer = Mixer(pygame.mixer)
+    while main_loop(clock, player_plane, renderables, screen, mixer):
         # Reset renderables in order to be able to loop again
         renderables = pygame.sprite.LayeredUpdates()
         player_plane = create_player_plane(renderables)
@@ -75,7 +77,7 @@ def draw_text(screen, render):
             )
 
 
-def main_loop(clock, player_plane, renderables, screen):
+def main_loop(clock, player_plane, renderables, screen, mixer):
     """All game logic goes here
 
     :param clock:
@@ -91,11 +93,12 @@ def main_loop(clock, player_plane, renderables, screen):
 
     last_update = 0
     _map = Map(renderables)
+    mixer.play_music()
     text_to_render = "instructions"
 
     # -------- Main Program Loop -----------
     while not done:
-        check_collisions(renderables)
+        check_collisions(renderables, mixer)
 
         # --- Main event loop
         for event in pygame.event.get():  # User did something
@@ -103,17 +106,22 @@ def main_loop(clock, player_plane, renderables, screen):
             if event.type == pygame.QUIT:
                 # Flag that we are done so we exit this loop
                 done = True
+                continue;
 
             # Reset player plane's sprite
             if event.type == pygame.KEYUP:
                 player_plane.reset_sprite()
                 player_plane.reset_weapon_cooldown()
+                continue;
 
             enemy_planes = renderables.get_sprites_from_layer(Layer.ENEMIES)
             for idx, enemy_plane in enumerate(enemy_planes):
                 if event.type == pygame.USEREVENT + idx:
                     bullet = enemy_plane.fire()
+                    mixer.play_sound('enemy_bullet')
                     renderables.add(bullet, layer=Layer.ENEMY_BULLETS)
+
+            mixer.handle_event(event)
 
         # Get user's key presses
         pressed = pygame.key.get_pressed()
@@ -144,8 +152,10 @@ def main_loop(clock, player_plane, renderables, screen):
                     # Create bullet
                     bullet = player_plane.fire()
                     if isinstance(bullet, Bullet):
+                        mixer.play_sound('player_bullet')
                         renderables.add(bullet, layer=Layer.PLAYER_BULLETS)
             else:
+                mixer.stop_music()
                 text_to_render = "game_over,restart"
 
         # Update all sprites in the main sprite group
@@ -187,6 +197,9 @@ def main_loop(clock, player_plane, renderables, screen):
 
 
 # Initialize the game engine
+pygame.mixer.pre_init(48000,-16,2,1024)
+pygame.mixer.init()
+pygame.mixer.set_num_channels(40)
 pygame.init()
 
 main()
