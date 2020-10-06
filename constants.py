@@ -45,9 +45,11 @@ class Constants:
     ENEMY_TOUCH_INSIDE = 2
 
     SPRITE_ENEMY_BULLET = {'spritesheet_filename': 'enemy_bullet.png',
-                           'width': 8, 'height': 13, 'rows': 1, 'columns': 1}
-    SPRITE_PLAYER_BULLET = {'spritesheet_filename': 'player_bullet.png',
-                            'width': 8, 'height': 13, 'rows': 1, 'columns': 1}
+                           'width': 8, 'height': 13, 'rows': 1, 'columns': 1, 'speed': 6}
+    SPRITE_PLAYER_BULLET_LIGHT = {'spritesheet_filename': 'player_bullet.png',
+                            'width': 8, 'height': 13, 'rows': 1, 'columns': 1, 'speed': 6}
+    SPRITE_PLAYER_BULLET_HEAVY = {'spritesheet_filename': 'player_bullet_heavy.png',
+                                  'width': 12, 'height': 20, 'rows': 1, 'columns': 1, 'speed': 3}
     SPRITE_ENEMY_PLANE = {'spritesheet_filename': 'enemy.png',
                           'width': 31, 'height': 42, 'rows': 1, 'columns': 3}
     SPRITE_PLAYER_PLANE = {'spritesheet_filename': 'player.png',
