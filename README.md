@@ -2,14 +2,14 @@
 # enter project directory
 cd fuego-fighters
 
-# create virtuelenv
-virtualenv . -p `which python3`
+# create virtuelenv with python3
+virtualenv venv -p `which python3`
 
 # activate virtuelenv
-source bin/activate
+source venv/bin/activate
 
 # install dependencies
-bin/pip install -r requirements.txt
+pip install -r requirements.txt
 
 # run the program
 python ff.py
