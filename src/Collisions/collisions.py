@@ -63,7 +63,7 @@ def check_collisions(renderables, mixer):
             if enemy_plane.take_damage(10):
                 # Draw explosion
                 explosion = get_explosion(Constants.SPRITE_EXPLOSION,
-                                          collision.rect)
+                                          enemy_plane.rect)
                 mixer.play_sound('ship_explodes')
                 renderables.add(explosion)
             else:
