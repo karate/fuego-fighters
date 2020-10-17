@@ -51,8 +51,8 @@ def create_player_plane(renderables):
     # Plane(sprite_type, speed_h, speed_v, cooldown, hot_points)
     player_plane = Plane(Constants.SPRITE_PLAYER_PLANE, 5, 4, 100, 30,
                          respect_borders=True)
-    player_plane.rect.x = (pygame.display.get_surface().get_width() -
-                           player_plane.rect.right) / 2
+    player_plane.rect.x = int((pygame.display.get_surface().get_width() -
+                           player_plane.rect.right) / 2)
     player_plane.rect.y = pygame.display.get_surface().get_height() - 100
     # Add player's plane to sprite list
     renderables.add(player_plane, layer=Layer.PLAYER)
