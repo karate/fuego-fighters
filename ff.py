@@ -35,6 +35,26 @@ def main():
     # update_map(renderables)
 
     mixer = Mixer(pygame.mixer)
+    
+    white=(255,255,255)
+    end_it=False
+    while (end_it==False):
+        screen.fill(white)
+        for event in pygame.event.get():
+            if pygame.key.get_pressed()[pygame.K_SPACE]:
+                end_it=True
+        pressed = pygame.key.get_pressed()
+        if pressed[pygame.K_q]:
+                exit(0)
+        for key in Constants.get_available_text()["start_menu"]:
+            screen.blit(    
+                    Constants.get_available_text()["start_menu"][key]['text'],
+                    Constants.get_available_text()["start_menu"][key]['pos']
+                )
+        screen.blit(player_plane.image, (Constants.X_CENTER-30, 275))
+        pygame.display.flip()
+
+    Constants.UPDATE_INTERVAL += pygame.time.get_ticks()
     while main_loop(clock, player_plane, renderables, screen, mixer):
         # Reset renderables in order to be able to loop again
         renderables = pygame.sprite.LayeredUpdates()

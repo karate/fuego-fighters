@@ -86,12 +86,29 @@ class Constants:
 
     @staticmethod
     def get_available_text():
+        title = ArcadeFont(20).get_text("Welcome to Fuego Fighters",
+                                       (255, 0, 0))
+        start = ArcadeFont(15).get_text("When ready, press SPACE to start.",
+                                       (0, 0, 124))
         inst = ArcadeFont(15).get_text("Press SPACE to fire. Press 'q' to quit",
                                        (0, 0, 124))
         game_over = ArcadeFont(35).get_text("GAME OVER", (0, 0, 124))
+        
         restart = ArcadeFont(12).get_text(
             "Press 'r' to restart. Press 'q' to quit", (0, 0, 124))
+        quit = ArcadeFont(15).get_text("Press 'q' to quit", (0, 0, 124))
         available_text = {
+            "start_menu": {
+                "title":{
+                    'text': title,
+                    'pos': title.get_rect(center=(Constants.X_CENTER, 50))},
+                "start": {
+                    'text': start,
+                    'pos': start.get_rect(center=(Constants.X_CENTER, 550))},
+                "quit": {
+                    'text': quit,
+                    'pos': quit.get_rect(center=(Constants.X_CENTER, 720))}
+                },
             "instructions": {
                 'text': inst,
                 'pos': inst.get_rect(center=(Constants.X_CENTER, 50))},
@@ -101,11 +118,9 @@ class Constants:
             "restart": {
                 'text': restart,
                 'pos': restart.get_rect(center=(Constants.X_CENTER, 340))
-
             }
         }
         return available_text
-
 
 class Layer:
     PLAYER = 1
