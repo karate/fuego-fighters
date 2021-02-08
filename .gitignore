@@ -6,3 +6,4 @@ lib64
 *.swp
 pip-selfcheck.json
 *.idea
+/FuegoFighters.spec
