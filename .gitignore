@@ -6,3 +6,6 @@ lib64
 *.swp
 pip-selfcheck.json
 *.idea
+/.idea/
+/__pycache__/
+/venv/
