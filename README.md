@@ -12,7 +12,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 # run the program
-python ff.py
+python __init__.py
 
 # press 'q' to quit
 ```
