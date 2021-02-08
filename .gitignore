@@ -10,3 +10,5 @@ pip-selfcheck.json
 dist
 build
 /venv/
+/.idea/
+/__pycache__/
