@@ -12,7 +12,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 # run the program
-python __init__.py
+python CLI.py
 
 # press 'q' to quit
 ```
