@@ -7,3 +7,5 @@ lib64
 pip-selfcheck.json
 *.idea
 /FuegoFighters.spec
+dist
+build
