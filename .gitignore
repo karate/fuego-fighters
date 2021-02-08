@@ -9,3 +9,4 @@ pip-selfcheck.json
 /FuegoFighters.spec
 dist
 build
+/venv/
