@@ -40,6 +40,8 @@ class Plane(Sprite):
         self.mask = pygame.mask.from_surface(self.image)
         self.respect_borders = respect_borders
 
+        self.active_bullet_info = Constants.SPRITE_PLAYER_BULLET_LIGHT
+
     def fire(self):
         # Calculate the last time the gun fired
         now = pygame.time.get_ticks()
@@ -55,7 +57,7 @@ class Plane(Sprite):
         if now - self.last_fire >= current_cooldown:
             self.last_fire = now
             self.keyup = False
-            bullet = Bullet(Constants.SPRITE_PLAYER_BULLET, 6, -1)
+            bullet = Bullet(self.active_bullet_info, -1)
             bullet.rect.x = self.rect.x + (self.rect.width / 2)
             bullet.rect.y = self.rect.y - 10
             return bullet
@@ -138,3 +140,10 @@ class Plane(Sprite):
             # Return false if the plane has reached the border
             return False
         return True
+
+    def change_active_bullet_info(self, use_light = True):
+        if use_light:
+            self.active_bullet_info = Constants.SPRITE_PLAYER_BULLET_LIGHT
+        else:
+            self.active_bullet_info = Constants.SPRITE_PLAYER_BULLET_HEAVY
+

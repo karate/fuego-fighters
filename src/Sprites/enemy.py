@@ -40,7 +40,7 @@ class Enemy(Plane):
 
         :return:
         """
-        bullet = Bullet(Constants.SPRITE_ENEMY_BULLET, 6, 1)
+        bullet = Bullet(Constants.SPRITE_ENEMY_BULLET, 1)
         bullet.rect.x = self.rect.x + (self.rect.width / 2)
         bullet.rect.y = self.rect.y - 10
         return bullet

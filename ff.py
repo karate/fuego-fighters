@@ -167,6 +167,11 @@ def main_loop(clock, player_plane, renderables, screen, mixer):
                 # Move down
                 if pressed[pygame.K_DOWN]:
                     player_plane.move_down()
+                # Change active bullet type
+                if pressed[pygame.K_1]:
+                    player_plane.change_active_bullet_info(use_light = True)
+                elif pressed[pygame.K_2]:
+                    player_plane.change_active_bullet_info(use_light = False)
                 # Fire
                 if pressed[pygame.K_SPACE]:
                     # Create bullet
