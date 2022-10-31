@@ -1,3 +1,8 @@
+**Description:**
+
+A top-down arcade game inspired by Aero Fighters, written in Python and Pygame 
+
+**Installation:**
 ```bash
 # enter project directory
 cd fuego-fighters
@@ -16,3 +21,7 @@ python ff.py
 
 # press 'q' to quit
 ```
+
+**License:**
+
+To be defined.
